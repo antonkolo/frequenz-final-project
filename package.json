@@ -1,0 +1,30 @@
+{
+  "name": "frequenz-final-project",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "next build",
+    "dev": "next dev",
+    "lint": "next lint",
+    "start": "next start"
+  },
+  "dependencies": {
+    "next": "15.0.0-canary.171",
+    "react": "19.0.0-rc-5d19e1c8-20240923",
+    "react-dom": "19.0.0-rc-5d19e1c8-20240923",
+    "sass": "^1.80.4"
+  },
+  "devDependencies": {
+    "@types/node": "^20",
+    "@types/react": "^18",
+    "@types/react-dom": "^18",
+    "eslint": "^9.13.0",
+    "eslint-config-upleveled": "^8.11.2",
+    "prettier": "^3.3.3",
+    "stylelint": "^16.10.0",
+    "stylelint-config-upleveled": "^1.1.5",
+    "typescript": "^5"
+  },
+  "packageManager": "pnpm@9.10.0+sha512.73a29afa36a0d092ece5271de5177ecbf8318d454ecd701343131b8ebc0c1a91c487da46ab77c8e596d6acf1461e3594ced4becedf8921b074fbd8653ed7051c"
+}
