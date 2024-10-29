@@ -10,10 +10,15 @@
     "start": "next start"
   },
   "dependencies": {
+    "@react-three/drei": "^9.115.0",
+    "@react-three/fiber": "9.0.0-alpha.8",
+    "@types/three": "^0.169.0",
+    "gsap": "^3.12.5",
     "next": "15.0.0-canary.171",
     "react": "19.0.0-rc-5d19e1c8-20240923",
     "react-dom": "19.0.0-rc-5d19e1c8-20240923",
-    "sass": "^1.80.4"
+    "sass": "^1.80.4",
+    "three": "^0.169.0"
   },
   "devDependencies": {
     "@types/node": "^20",
