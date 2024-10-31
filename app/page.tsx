@@ -1,10 +1,11 @@
 import ThreeCanvas from './_components/ThreeCanvas/ThreeCanvas';
-import ThreeDObject from './_components/ThreeDObject/ThreeDObject';
-import styles from './page.module.scss';
+import ThreeDObject from './_components/ThreeScene/ThreeDObject';
+
+// import styles from './page.module.scss';
 
 export default function Home() {
   return (
-    <div className={styles.wrapper}>
+    <div>
       <ThreeCanvas>
         <ThreeDObject />
       </ThreeCanvas>
