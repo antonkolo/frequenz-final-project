@@ -1,13 +1,23 @@
 'use client';
 
-import { OrbitControls, PerspectiveCamera } from '@react-three/drei';
-import { useFrame } from '@react-three/fiber';
-import { type ReactNode, useEffect, useRef } from 'react';
+import {
+  Environment,
+  MeshDistortMaterial,
+  OrbitControls,
+  PerspectiveCamera,
+  useCursor,
+} from '@react-three/drei';
+// import { useFrame } from '@react-three/fiber';
+import { type ReactNode, useRef, useState } from 'react';
+import * as THREE from 'three';
 import type { OrbitControls as OrbitControlsImpl } from 'three-stdlib';
 import { angleToRadians } from '../../_utils/formulas';
 
 export default function ThreeDObject(): ReactNode {
   const orbitControlsRef = useRef<OrbitControlsImpl>(null);
+  const distortedObjectRef = useRef(null);
+  const [isHovered, setIsHovered] = useState(false);
+  useCursor(isHovered);
 
   // Change based perspective on cursor location
   // useEffect(() => {
@@ -30,36 +40,34 @@ export default function ThreeDObject(): ReactNode {
 
   return (
     <>
-      <PerspectiveCamera makeDefault position={[0, 2, 10]} />
-      <OrbitControls ref={orbitControlsRef} />
+      {/* camera */}
+      <PerspectiveCamera makeDefault position={[0, 0, 5]} />
+      {/* <OrbitControls ref={orbitControlsRef} /> */}
 
       {/* sphere */}
-      <mesh position={[0, 1, 0]} castShadow>
-        <sphereGeometry args={[1, 50, 50]} />
-        <meshStandardMaterial color="#fff" />
-      </mesh>
-
-      {/* floor */}
-      <mesh rotation={[angleToRadians(-90), 0, 0]} receiveShadow>
-        <planeGeometry args={[7, 7]} />
-        <meshPhongMaterial color="#64c6ff" />
-      </mesh>
-
-      {/* wall */}
-      <mesh position={[0, 0, -5]} receiveShadow>
-        <planeGeometry args={[7, 7]} />
-        <meshPhongMaterial color="#64c6ff" />
+      <mesh
+        onPointerOver={() => setIsHovered(true)}
+        onPointerOut={() => setIsHovered(false)}
+        position={[0, 0, 0]}
+        castShadow
+      >
+        <sphereGeometry args={[1, 100, 100]} />
+        <MeshDistortMaterial
+          ref={distortedObjectRef}
+          speed={2}
+          factor={2}
+          color="black"
+          metalness={0.9}
+          roughness={0.05}
+        />
       </mesh>
 
       {/* ligthing */}
-      <ambientLight args={['#fff', 0.5]} />
-      <spotLight
-        args={['#fff', 15, 20, angleToRadians(45), 0.4]}
-        position={[0, 2, 3]}
-        castShadow
-      />
+      <ambientLight args={['#ffffff', 0.1]} />
 
       {/* environment */}
+
+      <color args={['#030202']} attach="background" />
     </>
   );
 }

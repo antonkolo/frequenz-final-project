@@ -25,6 +25,7 @@
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
+    "@types/webaudioapi": "^0.0.27",
     "eslint": "^9.13.0",
     "eslint-config-upleveled": "^8.11.3",
     "prettier": "^3.3.3",

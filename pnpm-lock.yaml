@@ -48,6 +48,9 @@ importers:
       '@types/react-dom':
         specifier: ^18
         version: 18.3.1
+      '@types/webaudioapi':
+        specifier: ^0.0.27
+        version: 0.0.27
       eslint:
         specifier: ^9.13.0
         version: 9.13.0
@@ -698,6 +701,9 @@ packages:
 
   '@types/three@0.169.0':
     resolution: {integrity: sha512-oan7qCgJBt03wIaK+4xPWclYRPG9wzcg7Z2f5T8xYTNEF95kh0t0lklxLLYBDo7gQiGLYzE6iF4ta7nXF2bcsw==}
+
+  '@types/webaudioapi@0.0.27':
+    resolution: {integrity: sha512-UWVaT2JkjAMU0x9BHWE8Lm4cFfVAzd5Av1v+b7phOXBY047prADh/dz+VW5SG0CxVutcE7DXtR9rTKFq76ODaQ==}
 
   '@types/webxr@0.5.20':
     resolution: {integrity: sha512-JGpU6qiIJQKUuVSKx1GtQnHJGxRjtfGIhzO2ilq43VZZS//f1h1Sgexbdk+Lq+7569a6EYhOWrUpIruR/1Enmg==}
@@ -3320,6 +3326,8 @@ snapshots:
       '@webgpu/types': 0.1.49
       fflate: 0.8.2
       meshoptimizer: 0.18.1
+
+  '@types/webaudioapi@0.0.27': {}
 
   '@types/webxr@0.5.20': {}
 
