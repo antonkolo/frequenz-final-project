@@ -1,24 +1,68 @@
 'use client';
-
+// imports
 import {
-  Environment,
   MeshDistortMaterial,
   OrbitControls,
   PerspectiveCamera,
+  Sparkles,
   useCursor,
 } from '@react-three/drei';
+import { useFrame } from '@react-three/fiber';
 // import { useFrame } from '@react-three/fiber';
 import { type ReactNode, useRef, useState } from 'react';
 import * as THREE from 'three';
 import type { OrbitControls as OrbitControlsImpl } from 'three-stdlib';
-import { angleToRadians } from '../../_utils/formulas';
+import type { AudioAnalyzer } from '../../../lib/audio-analyzer';
+import { angleToRadians } from '../../utils/formulas';
 
-export default function ThreeDObject(): ReactNode {
-  const orbitControlsRef = useRef<OrbitControlsImpl>(null);
-  const distortedObjectRef = useRef(null);
+type RandomSoundFunction = () => void;
+
+type Props = {
+  analyzer: AudioAnalyzer | null;
+  onClick: RandomSoundFunction;
+};
+
+// components
+function Sphere({
+  onClick,
+  analyzer,
+}: {
+  onClick: RandomSoundFunction;
+  analyzer: AudioAnalyzer | null;
+}) {
   const [isHovered, setIsHovered] = useState(false);
-  useCursor(isHovered);
+  const ref = useRef(null);
 
+  useFrame(() => {
+    // console.log(analyzer);
+    if (analyzer) {
+      console.log(analyzer.getFFT());
+    }
+  });
+
+  useCursor(isHovered);
+  return (
+    <mesh
+      onPointerOver={() => setIsHovered(true)}
+      onPointerOut={() => setIsHovered(false)}
+      position={[0, 0, 0]}
+      castShadow
+      onClick={onClick}
+    >
+      {/* <sphereGeometry args={[1, 100, 100]} /> */}
+      <icosahedronGeometry args={[1, 30]} ref={ref} />
+      <MeshDistortMaterial
+        speed={2}
+        factor={2}
+        color="white"
+        metalness={0.9}
+        roughness={0.05}
+      />
+    </mesh>
+  );
+}
+
+export default function Scene({ analyzer, onClick }: Props): ReactNode {
   // Change based perspective on cursor location
   // useEffect(() => {
   //   if (orbitControlsRef.current) {
@@ -37,7 +81,7 @@ export default function ThreeDObject(): ReactNode {
   //     );
   //   }
   // });
-
+  console.log(analyzer);
   return (
     <>
       {/* camera */}
@@ -45,23 +89,7 @@ export default function ThreeDObject(): ReactNode {
       {/* <OrbitControls ref={orbitControlsRef} /> */}
 
       {/* sphere */}
-      <mesh
-        onPointerOver={() => setIsHovered(true)}
-        onPointerOut={() => setIsHovered(false)}
-        position={[0, 0, 0]}
-        castShadow
-      >
-        <sphereGeometry args={[1, 100, 100]} />
-        <MeshDistortMaterial
-          ref={distortedObjectRef}
-          speed={2}
-          factor={2}
-          color="black"
-          metalness={0.9}
-          roughness={0.05}
-        />
-      </mesh>
-
+      <Sphere analyzer={analyzer} onClick={onClick} />
       {/* ligthing */}
       <ambientLight args={['#ffffff', 0.1]} />
 

@@ -1,11 +1,19 @@
 'use client';
 
 import React from 'react';
+import { AudioAnalyzer } from '../../../lib/audio-analyzer';
+import ThreeCanvas from '../ThreeCanvas/ThreeCanvas';
+import Scene from '../ThreeScene/Scene';
 
 // initialise variables
 let context: AudioContext | null = null;
+let audioAnalyzer: AudioAnalyzer | null = null;
 let oscillatorNode: OscillatorNode | null = null;
 
+// hardcoded values
+const DEG = Math.PI / 180;
+
+// helper functions
 function generateRandomWaveAndFrequency(): [OscillatorType, number] {
   const waveforms: OscillatorType[] = [
     'sine',
@@ -19,10 +27,25 @@ function generateRandomWaveAndFrequency(): [OscillatorType, number] {
   ];
 }
 
+function makeDistortionCurve(k = 50) {
+  const nSamples = 44100;
+  const curve = new Float32Array(nSamples);
+  curve.forEach((_, i) => {
+    const x = (i * 2) / nSamples - 1;
+    curve[i] = ((3 + k) * x * 20 * DEG) / (Math.PI + k * Math.abs(x));
+  });
+  return curve;
+}
+
+// functions
 function playRandomSound() {
   // create audio context only if doesn't exist
   if (!context) {
     context = new AudioContext();
+  }
+
+  if (!audioAnalyzer) {
+    audioAnalyzer = new AudioAnalyzer(context);
   }
 
   // create nodes
@@ -32,6 +55,12 @@ function playRandomSound() {
     type: 'lowpass',
     frequency: 400,
   });
+  const curve = makeDistortionCurve();
+
+  const shaper = new WaveShaperNode(context, {
+    curve: curve,
+    oversample: '4x',
+  });
 
   // randomize waveform and frequency
   const [type, frequency] = generateRandomWaveAndFrequency();
@@ -39,12 +68,20 @@ function playRandomSound() {
   // set oscillator params
   oscillatorNode.frequency.value = frequency;
   oscillatorNode.type = type;
-  gainNode.gain.exponentialRampToValueAtTime(0.0001, context.currentTime + 3);
+  gainNode.gain
+    .setValueAtTime(0.08, context.currentTime)
+    .exponentialRampToValueAtTime(0.000001, context.currentTime + 3);
 
   // connect oscillator to gain and gain to destination (speaker)
-  oscillatorNode.connect(gainNode).connect(filter).connect(context.destination);
+  oscillatorNode
+    .connect(gainNode)
+    .connect(shaper)
+    .connect(filter)
+    .connect(context.destination);
 
+  // play
   oscillatorNode.start(0);
+  console.log(audioAnalyzer.getFFT());
 }
 
 async function mute() {
@@ -65,6 +102,9 @@ export default function RandomWavePlayer() {
       <button onClick={playRandomSound}>Play Sound</button>
       <button onClick={mute}>Mute</button>
       <button onClick={unmute}>Unmute</button>
+      <ThreeCanvas>
+        <Scene onClick={playRandomSound} analyzer={audioAnalyzer} />
+      </ThreeCanvas>
     </>
   );
 }
