@@ -1,7 +1,15 @@
 export type Sample = {
   id: number;
-  userId: number;
+  title: string;
+  userId: User['id'];
   sourceUrl: string;
-  createdAt: Date;
-  editedAt: Date;
+  createdAt: string;
+  editedAt: string;
+};
+
+export type User = {
+  id: number;
+  handle: string;
+  passwordHash: string;
+  createdAt: string;
 };
