@@ -13,3 +13,8 @@ export type Sample = {
   createdAt: string;
   editedAt: string;
 };
+
+export type Category = {
+  id: number;
+  name: string;
+};

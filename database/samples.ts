@@ -29,3 +29,36 @@ export const getSamplesForUser = cache(async (userId: number) => {
   `;
   return samples.map(postgresToGraphql);
 });
+
+export const createSampleInsecure = cache(
+  async ({
+    title,
+    userId,
+    sourceUrl,
+  }: {
+    title: string;
+    userId: number;
+    sourceUrl: string;
+  }) => {
+    const [newSample] = await sql<Sample[]>`
+      INSERT into samples (title, user_id, source_url) VALUES (${title}, ${userId}, ${sourceUrl}) RETURNING *
+  `;
+    return postgresToGraphql(newSample);
+  },
+);
+
+export const deleteSampleInsecure = cache(async (id: number) => {
+  const [deletedSample] = await sql<Sample[]>`
+      DELETE from samples WHERE id=${id} RETURNING *
+  `;
+  return postgresToGraphql(deletedSample);
+});
+
+export const editSampleInsecure = cache(
+  async (id: number, newTitle: string) => {
+    const [updatedSample] = await sql<Sample[]>`
+      UPDATE samples SET title=${newTitle} WHERE id=${id} RETURNING *
+  `;
+    return postgresToGraphql(updatedSample);
+  },
+);

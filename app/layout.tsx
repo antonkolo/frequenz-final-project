@@ -1,5 +1,6 @@
 import './globals.scss';
 import type { Metadata } from 'next';
+import { ApolloClientProvider } from './ApolloClientProvider';
 import Header from './components/Header/Header';
 
 export const metadata: Metadata = {
@@ -16,7 +17,7 @@ export default function RootLayout({
     <html lang="en">
       <body>
         <Header />
-        {children}
+        <ApolloClientProvider>{children}</ApolloClientProvider>
       </body>
     </html>
   );
