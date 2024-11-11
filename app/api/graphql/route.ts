@@ -3,7 +3,11 @@ import { ApolloServer } from '@apollo/server';
 import { startServerAndCreateNextHandler } from '@as-integrations/next';
 import { makeExecutableSchema } from '@graphql-tools/schema';
 import { NextRequest, NextResponse } from 'next/server';
-import { getSamplesInsecure } from '../../../database/samples';
+import {
+  getSampleInsecure,
+  getSamplesForUser,
+  getSamplesInsecure,
+} from '../../../database/samples';
 import { getUserInsecure, getUsersInsecure } from '../../../database/users';
 import type { Resolvers } from '../../../graphql/graphqlGeneratedTypes';
 import type { Sample, User } from '../../../types/types';
@@ -23,12 +27,13 @@ const typeDefs = gql`
     handle: String!
     passwordHash: String!
     createdAt: String!
+    samples: [Sample!]
   }
 
   type Sample {
     id: ID!
     title: String!
-    userId: User!
+    user: User!
     sourceUrl: String!
     createdAt: String!
     editedAt: String!
@@ -38,6 +43,7 @@ const typeDefs = gql`
     users: [User]
     samples: [Sample]
     user(id: ID!): User
+    sample(id: ID!): Sample
   }
 `;
 
@@ -49,8 +55,21 @@ const resolvers: Resolvers = {
     users: async () => {
       return await getUsersInsecure();
     },
-    user: async (parent, args) => {
+    user: async (_, args) => {
       return await getUserInsecure(Number(args.id));
+    },
+    sample: async (_, args) => {
+      return await getSampleInsecure(Number(args.id));
+    },
+  },
+  User: {
+    samples: async (parent) => {
+      return await getSamplesForUser(parent.id);
+    },
+  },
+  Sample: {
+    user: async (parent) => {
+      return await getUserInsecure(Number(parent.userId));
     },
   },
 };

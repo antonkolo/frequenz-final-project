@@ -3,10 +3,16 @@ import React from 'react';
 
 export default function Header() {
   return (
-    <header>
-      <ul>
+    <header style={{ fontSize: '1.5rem' }}>
+      <ul style={{ display: 'flex', gap: '2rem' }}>
         <li>
-          <Link href="/sounds">Sounds</Link>
+          <Link href="/">Landing 🛬</Link>
+        </li>
+        <li>
+          <Link href="/sounds">Sounds 🎛️</Link>
+        </li>
+        <li>
+          <Link href="/profile/hacker3000">My Profile 🧑‍🦲</Link>
         </li>
       </ul>
     </header>
