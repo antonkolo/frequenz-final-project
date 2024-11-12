@@ -4,11 +4,21 @@ import { startServerAndCreateNextHandler } from '@as-integrations/next';
 import { makeExecutableSchema } from '@graphql-tools/schema';
 import { GraphQLError } from 'graphql';
 import { NextRequest, NextResponse } from 'next/server';
-import { title } from 'process';
 import {
   getCategoriesInsecure,
   getCategoryInsecure,
 } from '../../../database/categories';
+import {
+  createSampleCategoryInsecure,
+  deleteSampleCategoryInsecure,
+  getSampleCategoriesForSample,
+  getSamplesForCategory,
+} from '../../../database/sampleCategories';
+import {
+  createSampleLikeInsecure,
+  deleteSampleLikeInsecure,
+  getSampleLikesForUser,
+} from '../../../database/sampleLikes';
 import {
   createSampleInsecure,
   deleteSampleInsecure,
@@ -40,6 +50,7 @@ const typeDefs = gql`
     passwordHash: String!
     createdAt: String!
     samples: [Sample!]
+    sampleLikes: [SampleLike!]
   }
 
   type Sample {
@@ -50,11 +61,30 @@ const typeDefs = gql`
     sourceUrl: String!
     createdAt: String!
     editedAt: String!
+    sampleCategories: [SampleCategory!]
+    sampleLikes: [SampleLike!]
   }
 
   type Category {
     id: ID!
     name: String!
+    sampleCategories: [SampleCategory!]
+  }
+
+  type SampleCategory {
+    id: ID!
+    sample: Sample
+    sampleId: Int
+    category: Category
+    categoryId: Int
+  }
+
+  type SampleLike {
+    id: ID!
+    sample: Sample
+    user: User
+    sampleId: Int
+    userId: Int
   }
 
   type Query {
@@ -70,6 +100,12 @@ const typeDefs = gql`
     createSample(title: String!, userId: Int!, sourceUrl: String!): Sample
     deleteSample(id: Int!): Sample
     editSample(id: Int!, newTitle: String!): Sample
+    createSampleCategory(sampleId: Int!, categoryId: Int!): SampleCategory
+    deleteSampleCategory(id: Int!): SampleCategory
+    createSampleLike(userId: Int!, sampleId: Int!): SampleLike
+    deleteSampleLike(id: Int!): SampleLike
+    # create sample like
+    # delete sample like
   }
 `;
 
@@ -98,10 +134,31 @@ const resolvers: Resolvers = {
     samples: async (parent) => {
       return await getSamplesForUser(Number(parent.id));
     },
+    sampleLikes: async (parent) => {
+      return await getSampleLikesForUser(Number(parent.id));
+    },
   },
   Sample: {
     user: async (parent) => {
       return await getUserInsecure(Number(parent.userId));
+    },
+    sampleCategories: async (parent) => {
+      return await getSampleCategoriesForSample(Number(parent.userId));
+    },
+  },
+  Category: {
+    sampleCategories: async (parent) => {
+      return await getSamplesForCategory(Number(parent.id));
+    },
+  },
+  SampleCategory: {
+    sample: async (parent) => {
+      return await getSampleInsecure(Number(parent.sampleId));
+    },
+  },
+  SampleLike: {
+    sample: async (parent) => {
+      return await getSampleInsecure(Number(parent.sampleId));
     },
   },
   Mutation: {
@@ -123,6 +180,18 @@ const resolvers: Resolvers = {
     },
     editSample: async (_, args) => {
       return await editSampleInsecure(args.id, args.newTitle);
+    },
+    createSampleCategory: async (_, args) => {
+      return await createSampleCategoryInsecure(args.sampleId, args.categoryId);
+    },
+    deleteSampleCategory: async (_, args) => {
+      return await deleteSampleCategoryInsecure(args.id);
+    },
+    createSampleLike: async (_, args) => {
+      return await createSampleLikeInsecure(args.userId, args.sampleId);
+    },
+    deleteSampleLike: async (_, args) => {
+      return await deleteSampleLikeInsecure(args.id);
     },
   },
 };

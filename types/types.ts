@@ -18,3 +18,15 @@ export type Category = {
   id: number;
   name: string;
 };
+
+export type SampleCategory = {
+  id: number;
+  sampleId: Sample['id'];
+  categoryId: Category['id'];
+};
+
+export type SampleLike = {
+  id: number;
+  sampleId: Sample['id'];
+  userId: User['id'];
+};
