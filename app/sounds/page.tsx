@@ -1,8 +1,9 @@
 'use client';
 
-import { gql, useSuspenseQuery } from '@apollo/client';
-import React from 'react';
-import type { Sample } from '../../types/types';
+import { gql, useMutation, useSuspenseQuery } from '@apollo/client';
+import React, { useState } from 'react';
+import { type Sample as SampleType } from '../../types/types';
+import Sample from '../components/Sample/Sample';
 
 const samples = gql`
   query Samples {
@@ -15,8 +16,9 @@ const samples = gql`
 `;
 
 export default function page() {
-  const { data } = useSuspenseQuery<{ samples: Sample[] }>(samples);
-  console.log('samples', data);
+  const [errorMessage, setErrorMessage] = useState('');
+
+  const { data } = useSuspenseQuery<{ samples: SampleType[] }>(samples);
 
   return (
     <div>
@@ -24,10 +26,12 @@ export default function page() {
         {data.samples.map((sample) => {
           return (
             <li key={sample.id}>
-              <div>
-                <h2>{sample.title}</h2>
-                <audio controls src={sample.sourceUrl}></audio>
-              </div>
+              <Sample
+                user={{ id: 1 }}
+                id={sample.id}
+                sourceUrl={sample.sourceUrl}
+                title={sample.title}
+              ></Sample>
             </li>
           );
         })}

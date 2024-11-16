@@ -24,3 +24,7 @@ A modern audio sample exchange platform with a clean design. Learning project.
 - React Three Fiber
 - React Drei
 - Web Audio Api
+
+## Authentication
+
+Access to user dashboard, uploading and downloading samples is protected through session tokens.

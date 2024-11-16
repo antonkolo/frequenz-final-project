@@ -1,8 +1,11 @@
 export type User = {
   id: number;
   handle: string;
-  passwordHash: string;
   createdAt: string;
+};
+
+export type UserWithPasswordHash = User & {
+  passwordHash: string;
 };
 
 export type Sample = {
@@ -29,4 +32,14 @@ export type SampleLike = {
   id: number;
   sampleId: Sample['id'];
   userId: User['id'];
+};
+
+export type Session = {
+  id: number;
+  token: string;
+  userId: number;
+};
+
+export type Context = {
+  sessionTokenCookie?: { value: string };
 };

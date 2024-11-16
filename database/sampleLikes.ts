@@ -13,6 +13,14 @@ export const getSampleLikesForUser = cache(async (userId: number) => {
   return samples.map(postgresToGraphql);
 });
 
+export const getSampleLikesForSample = cache(async (sampleId: number) => {
+  const samples = await sql<SampleLike[]>`
+    SELECT * FROM sample_likes
+  WHERE sample_id=${sampleId}
+  `;
+  return samples.map(postgresToGraphql);
+});
+
 // mutations
 
 export const createSampleLikeInsecure = cache(
@@ -30,3 +38,13 @@ export const deleteSampleLikeInsecure = cache(async (id: number) => {
   `;
   return postgresToGraphql(deletedSampleLike);
 });
+
+export const getSampleLikeForUserAndSample = cache(
+  async (userId: number, sampleId: number) => {
+    const [sampleLike] = await sql<SampleLike[]>`
+    SELECT * FROM sample_likes WHERE user_id=${userId} AND  sample_id=${sampleId};
+    `;
+
+    return postgresToGraphql(sampleLike);
+  },
+);

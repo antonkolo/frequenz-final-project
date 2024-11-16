@@ -1,8 +1,11 @@
+import crypto from 'node:crypto';
 import { gql } from '@apollo/client';
 import { ApolloServer } from '@apollo/server';
 import { startServerAndCreateNextHandler } from '@as-integrations/next';
 import { makeExecutableSchema } from '@graphql-tools/schema';
+import bcrypt from 'bcrypt';
 import { GraphQLError } from 'graphql';
+import { cookies } from 'next/headers';
 import { NextRequest, NextResponse } from 'next/server';
 import {
   getCategoriesInsecure,
@@ -17,6 +20,8 @@ import {
 import {
   createSampleLikeInsecure,
   deleteSampleLikeInsecure,
+  getSampleLikeForUserAndSample,
+  getSampleLikesForSample,
   getSampleLikesForUser,
 } from '../../../database/sampleLikes';
 import {
@@ -27,9 +32,18 @@ import {
   getSamplesForUser,
   getSamplesInsecure,
 } from '../../../database/samples';
-import { getUserInsecure, getUsersInsecure } from '../../../database/users';
+import { createSessionInsecure } from '../../../database/sessions';
+import {
+  createUserInsecure,
+  getUserByIdInsecure,
+  getUserInsecure,
+  getUsersInsecure,
+  getUserWithPasswordHashInsecure,
+} from '../../../database/users';
 import type { Resolvers } from '../../../graphql/graphqlGeneratedTypes';
+import { userSchema } from '../../../types/schemas';
 import type { Category, Sample, User } from '../../../types/types';
+import { secureCookieOptions } from '../../../utils/cookies';
 
 export type GraphqlResponseBody =
   | {
@@ -47,7 +61,6 @@ const typeDefs = gql`
   type User {
     id: ID!
     handle: String!
-    passwordHash: String!
     createdAt: String!
     samples: [Sample!]
     sampleLikes: [SampleLike!]
@@ -90,10 +103,11 @@ const typeDefs = gql`
   type Query {
     users: [User]
     samples: [Sample]
-    user(id: ID!): User
+    user(handle: String!): User
     sample(id: ID!): Sample
     category(id: ID!): Category
     categories: [Category]
+    sampleLikeForUserAndSample(sampleId: ID!, userId: ID!): SampleLike
   }
 
   type Mutation {
@@ -104,8 +118,9 @@ const typeDefs = gql`
     deleteSampleCategory(id: Int!): SampleCategory
     createSampleLike(userId: Int!, sampleId: Int!): SampleLike
     deleteSampleLike(id: Int!): SampleLike
-    # create sample like
-    # delete sample like
+
+    register(handle: String!, password: String!): User
+    login(handle: String!, password: String!): User
   }
 `;
 
@@ -121,13 +136,20 @@ const resolvers: Resolvers = {
       return await getCategoriesInsecure();
     },
     user: async (_, args) => {
-      return await getUserInsecure(Number(args.id));
+      return await getUserInsecure(args.handle);
     },
     sample: async (_, args) => {
       return await getSampleInsecure(Number(args.id));
     },
     category: async (_, args) => {
       return await getCategoryInsecure(Number(args.id));
+    },
+
+    sampleLikeForUserAndSample: async (_, args) => {
+      return await getSampleLikeForUserAndSample(
+        Number(args.userId),
+        Number(args.sampleId),
+      );
     },
   },
   User: {
@@ -140,10 +162,13 @@ const resolvers: Resolvers = {
   },
   Sample: {
     user: async (parent) => {
-      return await getUserInsecure(Number(parent.userId));
+      return await getUserByIdInsecure(Number(parent.userId));
     },
     sampleCategories: async (parent) => {
       return await getSampleCategoriesForSample(Number(parent.userId));
+    },
+    sampleLikes: async (parent) => {
+      return await getSampleLikesForSample(Number(parent.userId));
     },
   },
   Category: {
@@ -160,9 +185,16 @@ const resolvers: Resolvers = {
     sample: async (parent) => {
       return await getSampleInsecure(Number(parent.sampleId));
     },
+    user: async (parent) => {
+      return await getUserByIdInsecure(Number(parent.sampleId));
+    },
   },
   Mutation: {
-    createSample: async (_, args) => {
+    createSample: async (_, args, context) => {
+      if (!context.sessionTokenCookie) {
+        throw new GraphQLError('Unauthorized operation');
+      }
+
       if (
         typeof args.userId !== 'number' ||
         !args.userId ||
@@ -175,7 +207,10 @@ const resolvers: Resolvers = {
       }
       return await createSampleInsecure(args);
     },
-    deleteSample: async (_, args) => {
+    deleteSample: async (_, args, context) => {
+      if (!context.sessionTokenCookie) {
+        throw new GraphQLError('Unauthorized operation');
+      }
       return await deleteSampleInsecure(args.id);
     },
     editSample: async (_, args) => {
@@ -193,6 +228,100 @@ const resolvers: Resolvers = {
     deleteSampleLike: async (_, args) => {
       return await deleteSampleLikeInsecure(args.id);
     },
+    register: async (parent, args) => {
+      const validatedArgs = userSchema.safeParse(args);
+      // 1. Check if required fields are present
+      if (validatedArgs.error) {
+        throw new GraphQLError(JSON.stringify(validatedArgs.error.format()));
+        // throw new GraphQLError('hi mom');
+      }
+
+      // 2. Check if user already exist in the database
+      const user = await getUserInsecure(args.handle);
+
+      if (user) {
+        throw new GraphQLError('Username already taken');
+      }
+
+      // 3. Hash the plain password from the user
+      const passwordHash = await bcrypt.hash(args.password, 12);
+
+      // 4. Save the user information with the hashed password in the database
+      const newUser = await createUserInsecure(args.handle, passwordHash);
+
+      if (!newUser) {
+        throw new GraphQLError('Registration failed');
+      }
+
+      // 5. Create a token
+      const token = crypto.randomBytes(100).toString('base64');
+
+      // 6. Create the session record
+      const session = await createSessionInsecure(token, Number(newUser.id));
+
+      if (!session) {
+        throw new GraphQLError('Sessions creation failed');
+      }
+
+      (await cookies()).set({
+        name: 'sessionToken',
+        value: session.token,
+        ...secureCookieOptions,
+      });
+
+      return newUser;
+    },
+
+    login: async (parent, args) => {
+      if (
+        typeof args.handle !== 'string' ||
+        typeof args.password !== 'string' ||
+        !args.handle ||
+        !args.password
+      ) {
+        throw new GraphQLError('Required field missing');
+      }
+
+      // 3. verify the user credentials
+      const userWithPasswordHash = await getUserWithPasswordHashInsecure(
+        args.handle,
+      );
+
+      if (!userWithPasswordHash) {
+        throw new GraphQLError('username or password not valid');
+      }
+
+      // 4. Validate the user password by comparing with hashed password
+      const passwordHash = await bcrypt.compare(
+        args.password,
+        userWithPasswordHash.passwordHash,
+      );
+
+      if (!passwordHash) {
+        throw new GraphQLError('username or password not valid');
+      }
+
+      // 5. Create a token
+      const token = crypto.randomBytes(100).toString('base64');
+
+      // 6. Create the session record
+      const session = await createSessionInsecure(
+        token,
+        userWithPasswordHash.id,
+      );
+
+      if (!session) {
+        throw new GraphQLError('Sessions creation failed');
+      }
+
+      (await cookies()).set({
+        name: 'sessionToken',
+        value: session.token,
+        ...secureCookieOptions,
+      });
+
+      return null;
+    },
   },
 };
 
@@ -203,11 +332,16 @@ const schema = makeExecutableSchema({
 
 const apolloServer = new ApolloServer({ schema });
 
-const apolloServerRouteHandler = startServerAndCreateNextHandler(apolloServer);
-
-// export async function POST(req: NextRequest) {
-//   return await apolloServerRouteHandler(req);
-// }
+const apolloServerRouteHandler = startServerAndCreateNextHandler<NextRequest>(
+  apolloServer,
+  {
+    context: async (req) => {
+      return {
+        sessionTokenCookie: req.cookies.get('sessionToken'),
+      };
+    },
+  },
+);
 
 export async function GET(
   req: NextRequest,

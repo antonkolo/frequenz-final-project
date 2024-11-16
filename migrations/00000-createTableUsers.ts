@@ -1,4 +1,10 @@
 import type { Sql } from 'postgres';
+import { z } from 'zod';
+
+export const userSchema = z.object({
+  handle: z.string(),
+  password: z.string(),
+});
 
 export async function up(sql: Sql) {
   await sql`CREATE TABLE users (
