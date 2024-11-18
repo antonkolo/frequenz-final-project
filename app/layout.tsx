@@ -1,6 +1,7 @@
 import './globals.scss';
 import type { Metadata } from 'next';
 import { cookies } from 'next/headers';
+import AppWrapper from '../context/context';
 import { getUser } from '../database/users';
 import { ApolloClientProvider } from './ApolloClientProvider';
 import Header from './components/Header/Header';
@@ -20,12 +21,13 @@ export default async function RootLayout({
 
   // 2. Get the current logged in user from the database using the sessionToken value
   const user = sessionCookie && (await getUser(sessionCookie.value));
-
   return (
     <html lang="en">
       <body>
-        <Header user={user} />
-        <ApolloClientProvider>{children}</ApolloClientProvider>
+        <AppWrapper user={user}>
+          <Header />
+          <ApolloClientProvider>{children}</ApolloClientProvider>
+        </AppWrapper>
       </body>
     </html>
   );

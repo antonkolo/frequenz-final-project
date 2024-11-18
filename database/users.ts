@@ -4,10 +4,11 @@ import type { Session, User, UserWithPasswordHash } from '../types/types';
 import { sql } from './connect';
 
 export const getUser = cache(async (sessionToken: Session['token']) => {
-  const [user] = await sql<Pick<User, 'handle' | 'id'>[]>`
+  const [user] = await sql<User[]>`
     SELECT
       users.handle,
-      users.id
+      users.id,
+      users.created_at
     FROM
       users
       INNER JOIN sessions ON (

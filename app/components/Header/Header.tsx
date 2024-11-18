@@ -1,15 +1,16 @@
+'use client';
+
 import Link from 'next/link';
 import React from 'react';
 import { LogoutButton } from '../../(auth)/logout/LogoutButton';
+import { useUserContext } from '../../../context/context';
 import type { User } from '../../../types/types';
 
 type HeaderUserProps = Pick<User, 'handle' | 'id'>;
 
-type Props = {
-  user: HeaderUserProps | undefined;
-};
+export default function Header() {
+  const user = useUserContext();
 
-export default function Header(props: Props) {
   return (
     <header style={{ fontSize: '1.5rem' }}>
       <nav>
@@ -21,12 +22,10 @@ export default function Header(props: Props) {
           <li>
             <Link href="/sounds">Sounds 🎛️</Link>
           </li>
-          {props.user ? (
+          {user ? (
             <>
               <li>
-                <Link href={`/profile/${props.user.handle}`}>
-                  My Profile 🧑‍🦲
-                </Link>
+                <Link href={`/profile/${user.handle}`}>My Profile 🧑‍🦲</Link>
               </li>
               <li>
                 <LogoutButton></LogoutButton>
