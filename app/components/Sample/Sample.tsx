@@ -5,6 +5,7 @@ import React, { Suspense, useContext, useState } from 'react';
 import { useUserContext } from '../../../context/context';
 import { type Sample, type SampleLike } from '../../../types/types';
 import ErrorMessage from '../../ErrorMessage';
+import { AudioPlayer } from '../AudioPlayer/AudioPlayer';
 
 type Props = {
   id: number;
@@ -115,7 +116,7 @@ export default function Sample(props: Props) {
     <Suspense fallback={<div>Loading...</div>}>
       <div>
         <h2>{props.title}</h2>
-        <audio controls src={props.sourceUrl}></audio>
+        <AudioPlayer sourceUrl={props.sourceUrl} />
         <button disabled={user ? false : true} onClick={handleLikeClick}>
           {isLiked ? 'Remove Like' : 'Like'}
         </button>

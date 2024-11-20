@@ -3,6 +3,7 @@ import { gql } from '@apollo/client';
 import { ApolloServer } from '@apollo/server';
 import { startServerAndCreateNextHandler } from '@as-integrations/next';
 import { makeExecutableSchema } from '@graphql-tools/schema';
+import { catalogue } from '@react-three/fiber/dist/declarations/src/core/reconciler';
 import bcrypt from 'bcrypt';
 import { GraphQLError } from 'graphql';
 import { cookies } from 'next/headers';
@@ -25,7 +26,9 @@ import {
   getSampleLikesForUser,
 } from '../../../database/sampleLikes';
 import {
+  createSample,
   createSampleInsecure,
+  deleteSample,
   deleteSampleInsecure,
   editSampleInsecure,
   getSampleInsecure,
@@ -112,7 +115,13 @@ const typeDefs = gql`
 
   type Mutation {
     createSample(title: String!, userId: Int!, sourceUrl: String!): Sample
-    deleteSample(id: Int!): Sample
+    createSampleWithSampleCategories(
+      title: String!
+      userId: Int!
+      sourceUrl: String!
+      categoryIds: [Int!]!
+    ): Sample
+    deleteSample(sessionToken: String!, id: Int!, userId: Int!): Sample
     editSample(id: Int!, newTitle: String!): Sample
     createSampleCategory(sampleId: Int!, categoryId: Int!): SampleCategory
     deleteSampleCategory(id: Int!): SampleCategory
@@ -207,11 +216,52 @@ const resolvers: Resolvers = {
       }
       return await createSampleInsecure(args);
     },
+    createSampleWithSampleCategories: async (_, args, context) => {
+      // check if session token is provided
+      if (!context.sessionTokenCookie) {
+        throw new GraphQLError('Unauthorized operation');
+      }
+      // check provided argument types
+      if (
+        typeof args.title !== 'string' ||
+        !args.title ||
+        typeof args.userId !== 'number' ||
+        !args.title ||
+        typeof args.sourceUrl !== 'string' ||
+        !args.sourceUrl ||
+        !Array.isArray(args.categoryIds)
+      ) {
+        throw new GraphQLError('Arguments missing or of wrong type');
+      }
+      // create a sample
+      const newSample = await createSample(context.sessionTokenCookie.value, {
+        title: args.title,
+        userId: args.userId,
+        sourceUrl: args.sourceUrl,
+      });
+
+      // early return in case no sample was created
+      if (!newSample) {
+        throw new GraphQLError(`There was an error creating a sample`);
+      }
+
+      // create categories
+      const sampleCategories = args.categoryIds.map(
+        async (category: number) =>
+          await createSampleCategoryInsecure(Number(newSample.id), category),
+      );
+
+      return newSample;
+    },
     deleteSample: async (_, args, context) => {
       if (!context.sessionTokenCookie) {
         throw new GraphQLError('Unauthorized operation');
       }
-      return await deleteSampleInsecure(args.id);
+      return await deleteSample(
+        context.sessionTokenCookie.value,
+        args.id,
+        args.userId,
+      );
     },
     editSample: async (_, args) => {
       return await editSampleInsecure(args.id, args.newTitle);

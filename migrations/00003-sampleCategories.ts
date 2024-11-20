@@ -4,7 +4,7 @@ export async function up(sql: Sql) {
   await sql`CREATE TABLE sample_categories (
     id integer PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
     category_id integer NOT NULL REFERENCES categories,
-    sample_id integer NOT NULL REFERENCES samples
+    sample_id integer NOT NULL REFERENCES samples ON DELETE cascade
   )
   `;
 }

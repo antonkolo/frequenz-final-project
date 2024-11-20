@@ -1,0 +1,10 @@
+@import '/styles/variables';
+
+.header {
+  background-color: blue;
+  color: white;
+}
+
+.inner-container {
+  max-width: $max-width;
+}

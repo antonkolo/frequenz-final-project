@@ -3,10 +3,11 @@ import type { Session, User } from '../types/types';
 import { sql } from './connect';
 
 export const getValidSession = cache(async (sessionToken: Session['token']) => {
-  const [session] = await sql<Pick<Session, 'id' | 'token'>[]>`
+  const [session] = await sql<Session[]>`
     SELECT
       sessions.id,
-      sessions.token
+      sessions.token,
+      sessions.user_id
     FROM
       sessions
     WHERE

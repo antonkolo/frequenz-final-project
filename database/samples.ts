@@ -3,6 +3,7 @@ import { postgresToGraphql } from '../graphql/transform';
 import type { Sample } from '../types/types';
 import { sql } from './connect';
 
+// insecure queries
 export const getSamplesInsecure = cache(async () => {
   const samples = await sql<Sample[]>`
   SELECT * FROM samples
@@ -60,5 +61,50 @@ export const editSampleInsecure = cache(
       UPDATE samples SET title=${newTitle} WHERE id=${id} RETURNING *
   `;
     return postgresToGraphql(updatedSample);
+  },
+);
+
+// secure queries
+
+export const deleteSample = cache(
+  async (sessionToken: string, id: number, userId: number) => {
+    const [sample] = await sql<Sample[]>`
+    DELETE FROM samples USING sessions
+    WHERE
+      sessions.token = ${sessionToken}
+      AND sessions.expiry_timestamp > now()
+      AND samples.id = ${id}
+      AND samples.user_id = ${userId}
+    RETURNING
+      samples.*
+  `;
+
+    return postgresToGraphql(sample);
+  },
+);
+
+export const createSample = cache(
+  async (
+    sessionToken: string,
+    newSample: Omit<Sample, 'id' | 'createdAt' | 'editedAt'>,
+  ) => {
+    const [sample] = await sql<Sample[]>`
+      INSERT INTO
+        samples (title, user_id, source_url) (
+          SELECT
+            ${newSample.title},
+            ${newSample.userId},
+            ${newSample.sourceUrl}
+          FROM
+            sessions
+          WHERE
+            token = ${sessionToken}
+            AND sessions.expiry_timestamp > now()
+        )
+      RETURNING
+        *
+    `;
+
+    return postgresToGraphql(sample);
   },
 );
