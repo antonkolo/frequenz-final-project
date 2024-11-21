@@ -1,10 +1,13 @@
 import type { Params } from 'next/dist/server/request/params';
 import React from 'react';
+import { useUserContext } from '../../../context/context';
+import LikedSamplesList from './components/LikedSamplesList';
 import Modal from './components/Modal';
+import { UserDetail } from './components/UserDetail';
 import styles from './page.module.scss';
 
 type Props = {
-  params: Promise<Params>;
+  params: Promise<{ handle: string }>;
 };
 
 export default async function UserDashboard({ params }: Props) {
@@ -13,6 +16,12 @@ export default async function UserDashboard({ params }: Props) {
   return (
     <div className={styles.container}>
       <h1>Profile Page: {handle}</h1>
+      {/* user data */}
+      <UserDetail handle={handle} />
+      {/* saved samples */}
+      {}
+      <LikedSamplesList handle={handle} />
+      {/* uploaded samples */}
       <Modal />
     </div>
   );

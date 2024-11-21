@@ -29,7 +29,6 @@ import {
   createSample,
   createSampleInsecure,
   deleteSample,
-  deleteSampleInsecure,
   editSampleInsecure,
   getSampleInsecure,
   getSamplesForUser,
@@ -45,7 +44,12 @@ import {
 } from '../../../database/users';
 import type { Resolvers } from '../../../graphql/graphqlGeneratedTypes';
 import { userSchema } from '../../../types/schemas';
-import type { Category, Sample, User } from '../../../types/types';
+import type {
+  Category,
+  Sample,
+  SampleCategory,
+  User,
+} from '../../../types/types';
 import { secureCookieOptions } from '../../../utils/cookies';
 
 export type GraphqlResponseBody =
@@ -188,6 +192,9 @@ const resolvers: Resolvers = {
   SampleCategory: {
     sample: async (parent) => {
       return await getSampleInsecure(Number(parent.sampleId));
+    },
+    category: async (parent) => {
+      return await getCategoryInsecure(Number(parent.categoryId));
     },
   },
   SampleLike: {

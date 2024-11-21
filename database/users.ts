@@ -31,7 +31,8 @@ export const getUserInsecure = cache(async (handle: User['handle']) => {
   const [user] = await sql<User[]>`
     SELECT
       users.id,
-      users.handle
+      users.handle,
+      users.created_at
     FROM
       users
     WHERE
