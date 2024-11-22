@@ -81,6 +81,7 @@ const typeDefs = gql`
     sourceUrl: String!
     createdAt: String!
     editedAt: String!
+    description: String!
     sampleCategories: [SampleCategory!]
     sampleLikes: [SampleLike!]
   }
@@ -118,12 +119,18 @@ const typeDefs = gql`
   }
 
   type Mutation {
-    createSample(title: String!, userId: Int!, sourceUrl: String!): Sample
+    createSample(
+      title: String!
+      userId: Int!
+      sourceUrl: String!
+      description: String!
+    ): Sample
     createSampleWithSampleCategories(
       title: String!
       userId: Int!
       sourceUrl: String!
       categoryIds: [Int!]!
+      description: String!
     ): Sample
     deleteSample(sessionToken: String!, id: Int!, userId: Int!): Sample
     editSample(id: Int!, newTitle: String!): Sample
@@ -217,7 +224,9 @@ const resolvers: Resolvers = {
         typeof args.title !== 'string' ||
         !args.title ||
         typeof args.sourceUrl !== 'string' ||
-        !args.sourceUrl
+        !args.sourceUrl ||
+        typeof args.description !== 'string' ||
+        !args.description
       ) {
         throw new GraphQLError('Arguments missing or of wrong type');
       }
@@ -233,7 +242,7 @@ const resolvers: Resolvers = {
         typeof args.title !== 'string' ||
         !args.title ||
         typeof args.userId !== 'number' ||
-        !args.title ||
+        !args.userId ||
         typeof args.sourceUrl !== 'string' ||
         !args.sourceUrl ||
         !Array.isArray(args.categoryIds)
@@ -245,6 +254,7 @@ const resolvers: Resolvers = {
         title: args.title,
         userId: args.userId,
         sourceUrl: args.sourceUrl,
+        description: args.description,
       });
 
       // early return in case no sample was created

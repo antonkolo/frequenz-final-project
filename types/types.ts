@@ -15,6 +15,7 @@ export type Sample = {
   sourceUrl: string;
   createdAt: string;
   editedAt: string;
+  description: string;
 };
 
 export type Category = {

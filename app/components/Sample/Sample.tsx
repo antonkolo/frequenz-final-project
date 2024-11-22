@@ -1,9 +1,9 @@
 'use client';
 
 import Link from 'next/link';
-import React, { Suspense, useContext, useState } from 'react';
+import React, { Suspense } from 'react';
 import { useUserContext } from '../../../context/context';
-import { type Sample, type User } from '../../../types/types';
+import { type User } from '../../../types/types';
 import { AudioPlayer } from '../AudioPlayer/AudioPlayer';
 import LikeButton from '../LikeButton/LikeButton';
 
@@ -11,7 +11,6 @@ type Props = {
   id: number;
   title: string;
   sourceUrl: string;
-
   user: User | undefined;
 };
 
@@ -21,7 +20,9 @@ export default function Sample(props: Props) {
   return (
     <Suspense fallback={<div>Loading...</div>}>
       <div>
-        <h2>{props.title}</h2>
+        <Link href={`/sounds/${props.id}`}>
+          <h2>{props.title}</h2>
+        </Link>
         <AudioPlayer sourceUrl={props.sourceUrl} />
         {user ? (
           <LikeButton sampleId={props.id} user={props.user} />

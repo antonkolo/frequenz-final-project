@@ -3,11 +3,12 @@
 import { gql, useMutation, useSuspenseQuery } from '@apollo/client';
 import React, { useEffect, useState } from 'react';
 import Select from 'react-select';
-import { set } from 'zod';
 import { useUserContext } from '../../../context/context';
+import { sampleSchema } from '../../../types/schemas';
 import { type Category } from '../../../types/types';
 import { UploadButton } from '../../../utils/uploadthing';
 import ErrorMessage from '../../ErrorMessage';
+import { GET_UPLOADED_SAMPLES } from '../../profile/[handle]/components/UploadedSamplesList';
 import { AudioPlayer } from '../AudioPlayer/AudioPlayer';
 
 // grapqhl queries and mutations
@@ -25,6 +26,7 @@ const CREATE_SAMPLE = gql`
     $title: String!
     $userId: Int!
     $sourceUrl: String!
+    $description: String!
     $categoryIds: [Int!]!
   ) {
     createSampleWithSampleCategories(
@@ -32,13 +34,14 @@ const CREATE_SAMPLE = gql`
       userId: $userId
       sourceUrl: $sourceUrl
       categoryIds: $categoryIds
+      description: $description
     ) {
       id
     }
   }
 `;
 
-type categoriesResponse = {
+type CategoriesResponse = {
   categories: Category[];
 };
 
@@ -56,6 +59,7 @@ export default function UploadSampleForm({
   const [title, setTitle] = useState('');
   const [sourceUrl, setSourceUrl] = useState('');
   const [categoryIds, setCategoryIds] = useState<Category['id'][]>([]);
+  const [description, setDescription] = useState('');
 
   // uploadthing states
   const [upload, setUpload] = useState(false);
@@ -66,8 +70,8 @@ export default function UploadSampleForm({
   const user = useUserContext();
 
   // prepare category values for the multiselect component
-  const { data: categoryData, error: getCategoryError } =
-    useSuspenseQuery<categoriesResponse>(GET_CATEGORIES);
+  const { data: categoryData } =
+    useSuspenseQuery<CategoriesResponse>(GET_CATEGORIES);
   const options = categoryData.categories.map((category) => {
     return { value: category.id, label: category.name };
   });
@@ -83,69 +87,95 @@ export default function UploadSampleForm({
 
   function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
+
+    const newSample = { title, sourceUrl, description };
+    const { success, error } = sampleSchema.safeParse(newSample);
+
+    if (!success) {
+      setError(error.message);
+      return;
+    }
+
     createSample({
-      variables: { title, userId: user!.id, sourceUrl, categoryIds },
+      variables: {
+        title,
+        userId: user!.id,
+        sourceUrl,
+        categoryIds,
+        description,
+      },
+      refetchQueries: [GET_UPLOADED_SAMPLES],
     });
   }
 
-  if (!sampleCreated) {
-    return (
-      <>
-        {upload && <AudioPlayer sourceUrl={sourceUrl}></AudioPlayer>}
-        {upload || (
-          <UploadButton
-            endpoint="audioSample"
-            onClientUploadComplete={(res) => {
-              // Do something with the response
+  return (
+    <>
+      {!sampleCreated ? (
+        <>
+          {upload && <AudioPlayer sourceUrl={sourceUrl}></AudioPlayer>}
+          {upload || (
+            <UploadButton
+              endpoint="audioSample"
+              onClientUploadComplete={(res) => {
+                // Do something with the response
 
-              const [upload] = res;
+                const [upload] = res;
 
-              setSourceUrl(upload!.url);
-              setUpload(true);
-              setTitle(upload!.name);
-            }}
-            onUploadError={(error: Error) => {
-              // Do something with the error.
-              setError(error.message);
-            }}
-          />
-        )}
-        <form onSubmit={handleSubmit}>
-          <label>
-            Give your sample a name
-            <input
-              value={title}
-              onChange={(e) => setTitle(e.currentTarget.value)}
-            ></input>
-          </label>
-          <label>
-            Choose Categories
-            {hasMounted && (
-              <Select
-                onChange={(e) => {
-                  const categoryIdsArray = e.map((category) =>
-                    Number(category.value),
-                  );
-                  setCategoryIds(categoryIdsArray);
-                }}
-                options={options}
-                isMulti
-              />
-            )}
-          </label>
-          <ErrorMessage>{error}</ErrorMessage>
-          <button>Save</button>
-        </form>
-        <button onClick={closeDialog}>Close</button>
-      </>
-    );
-  } else {
-    return (
-      <>
-        <h3>Your Sound is now online!</h3>
-        <p>Thanks for contributing to the community</p>
-        <button onClick={closeDialog}>Close</button>
-      </>
-    );
-  }
+                setSourceUrl(upload!.url);
+                setUpload(true);
+                setTitle(upload!.name);
+              }}
+              onUploadError={(error: Error) => {
+                // Do something with the error.
+                setError(error.message);
+              }}
+            />
+          )}
+          <form onSubmit={handleSubmit}>
+            <label>
+              Give your sample a name
+              <input
+                placeholder="Soft whisper"
+                maxLength={255}
+                value={title}
+                onChange={(e) => setTitle(e.currentTarget.value)}
+              ></input>
+            </label>
+            <label>
+              Description
+              <input
+                placeholder="Describe your sound"
+                maxLength={255}
+                value={description}
+                onChange={(e) => setDescription(e.currentTarget.value)}
+              ></input>
+            </label>
+            <label>
+              Choose Categories
+              {hasMounted && (
+                <Select
+                  onChange={(e) => {
+                    const categoryIdsArray = e.map((category) =>
+                      Number(category.value),
+                    );
+                    setCategoryIds(categoryIdsArray);
+                  }}
+                  options={options}
+                  isMulti
+                />
+              )}
+            </label>
+            <ErrorMessage>{error}</ErrorMessage>
+            <button>Save</button>
+          </form>
+        </>
+      ) : (
+        <div>
+          <h3>Your Sound is now online!</h3>
+          <p>Thanks for contributing to the community</p>
+        </div>
+      )}
+      <button onClick={closeDialog}>Close</button>
+    </>
+  );
 }

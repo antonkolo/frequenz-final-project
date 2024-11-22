@@ -4,6 +4,7 @@ import { gql, useMutation, useSuspenseQuery } from '@apollo/client';
 import { useRouter } from 'next/navigation';
 import React, { useState } from 'react';
 import type { Sample, SampleLike, User } from '../../../types/types';
+import { GET } from '../../api/graphql/route';
 import { GET_LIKED_SAMPLES } from '../../profile/[handle]/components/LikedSamplesList';
 
 // define queries and mutations
@@ -74,10 +75,9 @@ export default function LikeButton({
 
     onCompleted: () => {
       setErrorMessage('');
-      router.refresh();
     },
 
-    refetchQueries: [GET_LIKE],
+    refetchQueries: [GET_LIKE, GET_LIKED_SAMPLES],
   });
 
   // add like creation mutation
@@ -91,7 +91,7 @@ export default function LikeButton({
       setErrorMessage('');
     },
 
-    refetchQueries: [GET_LIKE],
+    refetchQueries: [GET_LIKE, GET_LIKED_SAMPLES],
   });
 
   const handleLikeClick = async () => {

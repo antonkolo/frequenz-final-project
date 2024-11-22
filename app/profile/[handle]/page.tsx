@@ -3,6 +3,7 @@ import React from 'react';
 import { useUserContext } from '../../../context/context';
 import LikedSamplesList from './components/LikedSamplesList';
 import Modal from './components/Modal';
+import UploadedSamplesList from './components/UploadedSamplesList';
 import { UserDetail } from './components/UserDetail';
 import styles from './page.module.scss';
 
@@ -19,9 +20,10 @@ export default async function UserDashboard({ params }: Props) {
       {/* user data */}
       <UserDetail handle={handle} />
       {/* saved samples */}
-      {}
       <LikedSamplesList handle={handle} />
       {/* uploaded samples */}
+      <UploadedSamplesList handle={handle} />
+      {/* Upload new Sample Modal */}
       <Modal />
     </div>
   );

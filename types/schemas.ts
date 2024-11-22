@@ -9,3 +9,11 @@ export const userSchema = z.object({
       'Password must be at least eight characters long, and include: at least one uppercase letter, one lowercase letter, one number and one special character',
     ),
 });
+
+export const sampleSchema = z.object({
+  title: z.string().max(255, "title shouldn't exceed 255 charachters"),
+  sourceUrl: z.string().url('Source url should be a valid link'),
+  description: z
+    .string()
+    .max(510, "Description  shouldn't exceed 510 charachters"),
+});
