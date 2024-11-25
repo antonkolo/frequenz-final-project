@@ -6,8 +6,6 @@ import React, { type ReactNode, Suspense } from 'react';
 import styles from './ThreeCanvas.module.scss';
 
 export default function ThreeCanvas({ children }: { children: ReactNode }) {
-  // const color = new THREE.Color('#000');
-
   return (
     <div className={styles.canvas}>
       <Canvas shadows>

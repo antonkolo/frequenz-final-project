@@ -1,11 +1,34 @@
 @import '/styles/variables';
 
-.header {
-  background-color: blue;
-  color: white;
-}
-
-.inner-container {
+@mixin header {
   max-width: $max-width;
   margin: 0 auto;
+  height: 100%;
+  padding: 28px 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-left: $border-white;
+  border-right: $border-white;
+}
+
+.header-dark {
+  @include header;
+  background-color: $black;
+  color: $white;
+}
+
+.header-light {
+  @include header;
+  background-color: $white;
+}
+
+.text-logo {
+  font-size: 24px;
+  text-transform: uppercase;
+}
+
+.container {
+  background-color: $black;
+  width: 100%;
 }

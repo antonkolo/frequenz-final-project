@@ -98,13 +98,8 @@ async function unmute() {
 
 export default function RandomWavePlayer() {
   return (
-    <>
-      <button onClick={playRandomSound}>Play Sound</button>
-      <button onClick={mute}>Mute</button>
-      <button onClick={unmute}>Unmute</button>
-      <ThreeCanvas>
-        <Scene onClick={playRandomSound} analyzer={audioAnalyzer} />
-      </ThreeCanvas>
-    </>
+    <ThreeCanvas>
+      <Scene onClick={playRandomSound} analyzer={audioAnalyzer} />
+    </ThreeCanvas>
   );
 }

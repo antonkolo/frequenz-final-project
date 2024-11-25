@@ -28,3 +28,10 @@ A modern audio sample exchange platform with a clean design. Learning project.
 ## Authentication
 
 Access to user dashboard, uploading and downloading samples is protected through session tokens.
+
+## Database Setup
+
+```sql
+psql postgres -U frequenz
+\connect frequenz
+```

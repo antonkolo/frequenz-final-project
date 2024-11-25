@@ -3,7 +3,6 @@ import { gql } from '@apollo/client';
 import { ApolloServer } from '@apollo/server';
 import { startServerAndCreateNextHandler } from '@as-integrations/next';
 import { makeExecutableSchema } from '@graphql-tools/schema';
-import { catalogue } from '@react-three/fiber/dist/declarations/src/core/reconciler';
 import bcrypt from 'bcrypt';
 import { GraphQLError } from 'graphql';
 import { cookies } from 'next/headers';
@@ -124,6 +123,7 @@ const typeDefs = gql`
       userId: Int!
       sourceUrl: String!
       description: String!
+      fileKey: String!
     ): Sample
     createSampleWithSampleCategories(
       title: String!
@@ -131,6 +131,7 @@ const typeDefs = gql`
       sourceUrl: String!
       categoryIds: [Int!]!
       description: String!
+      fileKey: String!
     ): Sample
     deleteSample(sessionToken: String!, id: Int!, userId: Int!): Sample
     editSample(id: Int!, newTitle: String!): Sample
@@ -255,6 +256,7 @@ const resolvers: Resolvers = {
         userId: args.userId,
         sourceUrl: args.sourceUrl,
         description: args.description,
+        fileKey: args.fileKey,
       });
 
       // early return in case no sample was created

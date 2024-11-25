@@ -27,6 +27,7 @@ const CREATE_SAMPLE = gql`
     $userId: Int!
     $sourceUrl: String!
     $description: String!
+    $fileKey: String!
     $categoryIds: [Int!]!
   ) {
     createSampleWithSampleCategories(
@@ -35,6 +36,7 @@ const CREATE_SAMPLE = gql`
       sourceUrl: $sourceUrl
       categoryIds: $categoryIds
       description: $description
+      fileKey: $fileKey
     ) {
       id
     }
@@ -60,6 +62,7 @@ export default function UploadSampleForm({
   const [sourceUrl, setSourceUrl] = useState('');
   const [categoryIds, setCategoryIds] = useState<Category['id'][]>([]);
   const [description, setDescription] = useState('');
+  const [fileKey, setFileKey] = useState('');
 
   // uploadthing states
   const [upload, setUpload] = useState(false);
@@ -79,33 +82,41 @@ export default function UploadSampleForm({
   const [createSample] = useMutation(CREATE_SAMPLE, {
     onError: (apolloError) => {
       setError(apolloError.message);
+      console.log(apolloError.message);
     },
     onCompleted: () => {
       setSampleCreated(true);
+      console.log('mutation completed');
     },
   });
 
-  function handleSubmit(e: React.FormEvent) {
+  async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
 
-    const newSample = { title, sourceUrl, description };
+    const newSample = { title, sourceUrl, description, fileKey };
+
+    console.log('submit clicked', newSample);
     const { success, error } = sampleSchema.safeParse(newSample);
 
+    console.log(success);
     if (!success) {
       setError(error.message);
       return;
     }
 
-    createSample({
+    console.log('got past error check');
+    const { data } = await createSample({
       variables: {
         title,
         userId: user!.id,
         sourceUrl,
         categoryIds,
         description,
+        fileKey,
       },
       refetchQueries: [GET_UPLOADED_SAMPLES],
     });
+    console.log(data);
   }
 
   return (
@@ -121,9 +132,12 @@ export default function UploadSampleForm({
 
                 const [upload] = res;
 
-                setSourceUrl(upload!.url);
-                setUpload(true);
-                setTitle(upload!.name);
+                if (upload) {
+                  setSourceUrl(upload.url);
+                  setUpload(true);
+                  setTitle(upload.name);
+                  setFileKey(upload.key);
+                }
               }}
               onUploadError={(error: Error) => {
                 // Do something with the error.

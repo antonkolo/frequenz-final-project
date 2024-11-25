@@ -16,6 +16,7 @@ export type Sample = {
   createdAt: string;
   editedAt: string;
   description: string;
+  fileKey: string;
 };
 
 export type Category = {

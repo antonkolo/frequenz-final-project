@@ -1,10 +1,19 @@
 import './globals.scss';
 import type { Metadata } from 'next';
+import localFont from 'next/font/local';
 import { cookies } from 'next/headers';
 import AppWrapper from '../context/context';
 import { getUser } from '../database/users';
 import { ApolloClientProvider } from './ApolloClientProvider';
+import Footer from './components/Footer/Footer';
 import Header from './components/Header/Header';
+
+const ballPill = localFont({
+  src: 'BallPill-trial-light.otf',
+  display: 'swap',
+  variable: '--ball-pill',
+  fallback: ['Helvetica Neue', 'Serif'],
+});
 
 export const metadata: Metadata = {
   title: 'Create Next App',
@@ -22,12 +31,13 @@ export default async function RootLayout({
   // 2. Get the current logged in user from the database using the sessionToken value
   const user = sessionCookie && (await getUser(sessionCookie.value));
   return (
-    <html lang="en">
+    <html lang="en" className={`${ballPill.variable}`}>
       <body>
         <AppWrapper user={user}>
           <Header />
           <ApolloClientProvider>{children}</ApolloClientProvider>
         </AppWrapper>
+        <Footer />
       </body>
     </html>
   );

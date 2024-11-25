@@ -90,12 +90,13 @@ export const createSample = cache(
   ) => {
     const [sample] = await sql<Sample[]>`
       INSERT INTO
-        samples (title, user_id, source_url, description) (
+        samples (title, user_id, source_url, description, file_key) (
           SELECT
             ${newSample.title},
             ${newSample.userId},
             ${newSample.sourceUrl},
-            ${newSample.description}
+            ${newSample.description},
+            ${newSample.fileKey}
           FROM
             sessions
           WHERE

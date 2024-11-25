@@ -16,4 +16,5 @@ export const sampleSchema = z.object({
   description: z
     .string()
     .max(510, "Description  shouldn't exceed 510 charachters"),
+  fileKey: z.string(),
 });

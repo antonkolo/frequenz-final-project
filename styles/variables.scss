@@ -1,1 +1,9 @@
-$max-width: 1280px;
+// colors
+$black: #000;
+$white: #fff;
+$accent-color: #aca988;
+
+$border-white: 1px solid $white;
+$border-black: 1px solid $black;
+$max-width: 1360px;
+$font-special: var(--ball-pill);

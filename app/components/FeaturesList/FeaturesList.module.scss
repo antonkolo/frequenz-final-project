@@ -1,0 +1,43 @@
+@import '/styles/variables';
+
+.section {
+  width: 100%;
+}
+
+.container {
+  margin: 0 auto;
+  padding-top: 3rem;
+
+  max-width: $max-width;
+  border-left: $border-black;
+  border-right: $border-black;
+}
+
+.feature {
+  padding: 3rem 2rem;
+  display: flex;
+  justify-content: space-between;
+
+  h2 {
+    font-size: 2.5rem;
+    font-weight: 300;
+    max-width: 40%;
+  }
+
+  div {
+    max-width: 40%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 3rem;
+  }
+
+  &:not(:last-child) {
+    border-bottom: $border-black;
+  }
+
+  a {
+    padding: 8px 20px;
+    border: $border-black;
+  }
+}

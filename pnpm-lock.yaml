@@ -52,7 +52,7 @@ importers:
         version: 0.9.2
       '@uploadthing/react':
         specifier: ^7.1.0
-        version: 7.1.0(next@15.0.0-canary.171(@babel/core@7.26.0)(react-dom@19.0.0-rc-5d19e1c8-20240923(react@19.0.0-rc-5d19e1c8-20240923))(react@19.0.0-rc-5d19e1c8-20240923)(sass@1.80.4))(react@19.0.0-rc-5d19e1c8-20240923)(uploadthing@7.2.0(express@4.21.1)(next@15.0.0-canary.171(@babel/core@7.26.0)(react-dom@19.0.0-rc-5d19e1c8-20240923(react@19.0.0-rc-5d19e1c8-20240923))(react@19.0.0-rc-5d19e1c8-20240923)(sass@1.80.4)))
+        version: 7.1.0(next@15.0.0-canary.171(@babel/core@7.26.0)(react-dom@19.0.0-rc-5d19e1c8-20240923(react@19.0.0-rc-5d19e1c8-20240923))(react@19.0.0-rc-5d19e1c8-20240923)(sass@1.80.4))(react@19.0.0-rc-5d19e1c8-20240923)(uploadthing@7.3.0(express@4.21.1)(next@15.0.0-canary.171(@babel/core@7.26.0)(react-dom@19.0.0-rc-5d19e1c8-20240923(react@19.0.0-rc-5d19e1c8-20240923))(react@19.0.0-rc-5d19e1c8-20240923)(sass@1.80.4)))
       '@wavesurfer/react':
         specifier: ^1.0.7
         version: 1.0.7(react@19.0.0-rc-5d19e1c8-20240923)(wavesurfer.js@7.8.8)
@@ -93,8 +93,8 @@ importers:
         specifier: ^4.19.2
         version: 4.19.2
       uploadthing:
-        specifier: ^7.2.0
-        version: 7.2.0(express@4.21.1)(next@15.0.0-canary.171(@babel/core@7.26.0)(react-dom@19.0.0-rc-5d19e1c8-20240923(react@19.0.0-rc-5d19e1c8-20240923))(react@19.0.0-rc-5d19e1c8-20240923)(sass@1.80.4))
+        specifier: ^7.3.0
+        version: 7.3.0(express@4.21.1)(next@15.0.0-canary.171(@babel/core@7.26.0)(react-dom@19.0.0-rc-5d19e1c8-20240923(react@19.0.0-rc-5d19e1c8-20240923))(react@19.0.0-rc-5d19e1c8-20240923)(sass@1.80.4))
       wavesurfer.js:
         specifier: ^7.8.8
         version: 7.8.8
@@ -128,7 +128,7 @@ importers:
         version: 9.13.0(jiti@2.4.0)
       eslint-config-upleveled:
         specifier: ^8.11.3
-        version: 8.11.3(@babel/core@7.26.0)(@types/eslint@9.6.1)(@types/node@20.17.1)(@types/react-dom@18.3.1)(@types/react@18.3.12)(eslint@9.13.0(jiti@2.4.0))(globals@15.11.0)(typescript@5.6.3)
+        version: 8.11.3(@babel/core@7.26.0)(@types/eslint@9.6.1)(@types/node@20.17.1)(@types/react-dom@18.3.1)(@types/react@18.3.12)(eslint@9.13.0(jiti@2.4.0))(globals@15.12.0)(typescript@5.6.3)
       prettier:
         specifier: ^3.3.3
         version: 3.3.3
@@ -137,7 +137,7 @@ importers:
         version: 16.10.0(typescript@5.6.3)
       stylelint-config-upleveled:
         specifier: ^1.1.5
-        version: 1.1.5(postcss@8.4.47)(stylelint-scss@6.8.1(stylelint@16.10.0(typescript@5.6.3)))(stylelint@16.10.0(typescript@5.6.3))
+        version: 1.1.5(postcss@8.4.47)(stylelint-scss@6.10.0(stylelint@16.10.0(typescript@5.6.3)))(stylelint@16.10.0(typescript@5.6.3))
       typescript:
         specifier: ^5
         version: 5.6.3
@@ -1792,6 +1792,9 @@ packages:
   '@uploadthing/mime-types@0.3.1':
     resolution: {integrity: sha512-CaEadjn33CzPSLRaU8uL8IRv8MpW9xU5Rg/R45T5In8608dzovDDk0uQ9jzmmLYU5hHt+4v2qugcG/jirm/KEA==}
 
+  '@uploadthing/mime-types@0.3.2':
+    resolution: {integrity: sha512-WP/K75S/649lM0GUcd9jq4RjeTIc/0bO2UmLx4+usTSNy/x0K8gV0JdLWeUUbmTQtJoHd4ZTSvAdG7ZQgcmXvA==}
+
   '@uploadthing/react@7.1.0':
     resolution: {integrity: sha512-xySIeTkX0/nYoBA+zC4ze7ickq6TB9LB6793J00iK5ELnfIILjUtR2Uyx17dMyxMkP9lmw4wIjLCwjW4dU1GIw==}
     peerDependencies:
@@ -1804,6 +1807,9 @@ packages:
 
   '@uploadthing/shared@7.1.0':
     resolution: {integrity: sha512-6cdS2hq9jUJFU/tqRKHs5XsDIwc6HdaVI4ka0vRy+IwjPnQBR0iXHwqyCtNNssCCAq4zQxrZr3iNEDPNqc0dqw==}
+
+  '@uploadthing/shared@7.1.1':
+    resolution: {integrity: sha512-Nem3jZ6G9AJEBzzDVvwSKV/wLdpADz8LDg+woo9diJTHj1FOjWNzCwb8wMxpEFLM88TWv5Tq8Z1mQepNmC5WIQ==}
 
   '@use-gesture/core@10.3.1':
     resolution: {integrity: sha512-WcINiDt8WjqBdUXye25anHiNxPc0VOrlT8F6LLkU6cycrOGUDyY/yyFmsg3k8i5OLvv25llc0QC45GhR/C8llw==}
@@ -2264,6 +2270,10 @@ packages:
 
   css-tree@3.0.0:
     resolution: {integrity: sha512-o88DVQ6GzsABn1+6+zo2ct801dBO5OASVyxbbvA2W20ue2puSh/VOuqUj90eUeMSX/xqGqBmOKiRQN7tJOuBXw==}
+    engines: {node: ^10 || ^12.20.0 || ^14.13.0 || >=15.0.0}
+
+  css-tree@3.0.1:
+    resolution: {integrity: sha512-8Fxxv+tGhORlshCdCwnNJytvlvq46sOLSYEx2ZIGurahWvMucSRnyjPA3AmrMq4VPRYbHVpWj5VkiVasrM2H4Q==}
     engines: {node: ^10 || ^12.20.0 || ^14.13.0 || >=15.0.0}
 
   cssesc@3.0.0:
@@ -2902,6 +2912,10 @@ packages:
     resolution: {integrity: sha512-yeyNSjdbyVaWurlwCpcA6XNBrHTMIeDdj0/hnvX/OLJ9ekOXYbLsLinH/MucQyGvNnXhidTdNhTtJaffL2sMfw==}
     engines: {node: '>=18'}
 
+  globals@15.12.0:
+    resolution: {integrity: sha512-1+gLErljJFhbOVyaetcwJiJ4+eLe45S2E7P5UiZ9xGfeq3ATQf5DOv9G7MH3gGbKQLkzmNh2DxfZwLdw+j6oTQ==}
+    engines: {node: '>=18'}
+
   globalthis@1.0.4:
     resolution: {integrity: sha512-DpLKbNU4WylpxJykQujfCcwYWiV/Jhm50Goo0wrVILAv5jOr9d+H+UR3PhSCD2rCCEIg0uc+G+muBTwD54JhDQ==}
     engines: {node: '>= 0.4'}
@@ -3343,6 +3357,9 @@ packages:
   known-css-properties@0.34.0:
     resolution: {integrity: sha512-tBECoUqNFbyAY4RrbqsBQqDFpGXAEbdD5QKr8kACx3+rnArmuuR22nKQWKazvp07N9yjTyDZaw/20UIH8tL9DQ==}
 
+  known-css-properties@0.35.0:
+    resolution: {integrity: sha512-a/RAk2BfKk+WFGhhOCAYqSiFLc34k8Mt/6NWRI4joER0EYUzXIcFivjjnoD3+XU1DggLn/tZc3DOAgke7l8a4A==}
+
   language-subtag-registry@0.3.23:
     resolution: {integrity: sha512-0K65Lea881pHotoGEa5gDlMxt3pctLi2RplBb7Ezh4rRdLEOtgi7n4EwK9lamnUCkKBqaeKRVebTq6BAxSkpXQ==}
 
@@ -3443,6 +3460,12 @@ packages:
 
   mdn-data@2.12.0:
     resolution: {integrity: sha512-WF52f/zAu7qiEqYxapSt+LW6Pc/jw8zfn0fx3G9fSckaWDvFLUminV0y0w/3hx8Z5pbMZTYZrXuSnBBxwT48Bg==}
+
+  mdn-data@2.12.1:
+    resolution: {integrity: sha512-rsfnCbOHjqrhWxwt5/wtSLzpoKTzW7OXdT5lLOIH1OTYhWu9rRJveGq0sKvDZODABH7RX+uoR+DYcpFnq4Tf6Q==}
+
+  mdn-data@2.12.2:
+    resolution: {integrity: sha512-IEn+pegP1aManZuckezWCO+XZQDplx1366JoVhTpMpBB1sPey/SbveZQUosKiKiGYjg1wH4pMlNgXbCiYgihQA==}
 
   media-typer@0.3.0:
     resolution: {integrity: sha512-dq+qelQ9akHpcOl/gUVRTxVIOkAJ1wR3QAvb4RsVjS8oVoFjDGTc679wJYmUmknUF5HwMLOgb5O+a3KxfWapPQ==}
@@ -3815,6 +3838,10 @@ packages:
 
   postcss-selector-parser@6.1.2:
     resolution: {integrity: sha512-Q8qQfPiZ+THO/3ZrOrO0cJJKfpYCagtMUkXbnEfmgUjwXg6z/WBeOyS9APBBPCTSiDV+s4SwQGu8yFsiMRIudg==}
+    engines: {node: '>=4'}
+
+  postcss-selector-parser@7.0.0:
+    resolution: {integrity: sha512-9RbEr1Y7FFfptd/1eEdntyjMwLeghW1bHX9GWjXo19vx4ytPQhANltvVxDggzJl7mnWM+dX28kb6cyS/4iQjlQ==}
     engines: {node: '>=4'}
 
   postcss-styled-syntax@0.6.4:
@@ -4325,6 +4352,12 @@ packages:
       stylelint: ^16.9.0
       stylelint-scss: ^6.7.0
 
+  stylelint-scss@6.10.0:
+    resolution: {integrity: sha512-y03if6Qw9xBMoVaf7tzp5BbnYhYvudIKzURkhSHzcHG0bW0fAYvQpTUVJOe7DyhHaxeThBil4ObEMvGbV7+M+w==}
+    engines: {node: '>=18.12.0'}
+    peerDependencies:
+      stylelint: ^16.0.2
+
   stylelint-scss@6.8.1:
     resolution: {integrity: sha512-al+5eRb72bKrFyVAY+CLWKUMX+k+wsDCgyooSfhISJA2exqnJq1PX1iIIpdrvhu3GtJgNJZl9/BIW6EVSMCxdg==}
     engines: {node: '>=18.12.0'}
@@ -4557,8 +4590,8 @@ packages:
     peerDependencies:
       browserslist: '>= 4.21.0'
 
-  uploadthing@7.2.0:
-    resolution: {integrity: sha512-x7UAumRF/o+zAkHDP8Re7Qzi3pQF44BZkpsDdubjOE5lNcLw5RQD8WzUPwXKR0hsWEZcR4uoB8LNEDIHT7lAHw==}
+  uploadthing@7.3.0:
+    resolution: {integrity: sha512-ALZCOI5m5XyDD9YHCewCrhLFnELeI8xRJfJC4PvGdh9u6PcAyv851UT92JC6BLtJdgB2Fi/o9gPOXMpZkD5pSw==}
     engines: {node: '>=18.13.0'}
     peerDependencies:
       express: '*'
@@ -6827,18 +6860,26 @@ snapshots:
 
   '@uploadthing/mime-types@0.3.1': {}
 
-  '@uploadthing/react@7.1.0(next@15.0.0-canary.171(@babel/core@7.26.0)(react-dom@19.0.0-rc-5d19e1c8-20240923(react@19.0.0-rc-5d19e1c8-20240923))(react@19.0.0-rc-5d19e1c8-20240923)(sass@1.80.4))(react@19.0.0-rc-5d19e1c8-20240923)(uploadthing@7.2.0(express@4.21.1)(next@15.0.0-canary.171(@babel/core@7.26.0)(react-dom@19.0.0-rc-5d19e1c8-20240923(react@19.0.0-rc-5d19e1c8-20240923))(react@19.0.0-rc-5d19e1c8-20240923)(sass@1.80.4)))':
+  '@uploadthing/mime-types@0.3.2': {}
+
+  '@uploadthing/react@7.1.0(next@15.0.0-canary.171(@babel/core@7.26.0)(react-dom@19.0.0-rc-5d19e1c8-20240923(react@19.0.0-rc-5d19e1c8-20240923))(react@19.0.0-rc-5d19e1c8-20240923)(sass@1.80.4))(react@19.0.0-rc-5d19e1c8-20240923)(uploadthing@7.3.0(express@4.21.1)(next@15.0.0-canary.171(@babel/core@7.26.0)(react-dom@19.0.0-rc-5d19e1c8-20240923(react@19.0.0-rc-5d19e1c8-20240923))(react@19.0.0-rc-5d19e1c8-20240923)(sass@1.80.4)))':
     dependencies:
       '@uploadthing/shared': 7.1.0
       file-selector: 0.6.0
       react: 19.0.0-rc-5d19e1c8-20240923
-      uploadthing: 7.2.0(express@4.21.1)(next@15.0.0-canary.171(@babel/core@7.26.0)(react-dom@19.0.0-rc-5d19e1c8-20240923(react@19.0.0-rc-5d19e1c8-20240923))(react@19.0.0-rc-5d19e1c8-20240923)(sass@1.80.4))
+      uploadthing: 7.3.0(express@4.21.1)(next@15.0.0-canary.171(@babel/core@7.26.0)(react-dom@19.0.0-rc-5d19e1c8-20240923(react@19.0.0-rc-5d19e1c8-20240923))(react@19.0.0-rc-5d19e1c8-20240923)(sass@1.80.4))
     optionalDependencies:
       next: 15.0.0-canary.171(@babel/core@7.26.0)(react-dom@19.0.0-rc-5d19e1c8-20240923(react@19.0.0-rc-5d19e1c8-20240923))(react@19.0.0-rc-5d19e1c8-20240923)(sass@1.80.4)
 
   '@uploadthing/shared@7.1.0':
     dependencies:
       '@uploadthing/mime-types': 0.3.1
+      effect: 3.10.3
+      sqids: 0.3.0
+
+  '@uploadthing/shared@7.1.1':
+    dependencies:
+      '@uploadthing/mime-types': 0.3.2
       effect: 3.10.3
       sqids: 0.3.0
 
@@ -7396,6 +7437,11 @@ snapshots:
       mdn-data: 2.10.0
       source-map-js: 1.2.1
 
+  css-tree@3.0.1:
+    dependencies:
+      mdn-data: 2.12.1
+      source-map-js: 1.2.1
+
   cssesc@3.0.0: {}
 
   csstype@3.1.3: {}
@@ -7674,7 +7720,7 @@ snapshots:
       eslint: 9.13.0(jiti@2.4.0)
       find-up-simple: 1.0.0
 
-  eslint-config-upleveled@8.11.3(@babel/core@7.26.0)(@types/eslint@9.6.1)(@types/node@20.17.1)(@types/react-dom@18.3.1)(@types/react@18.3.12)(eslint@9.13.0(jiti@2.4.0))(globals@15.11.0)(typescript@5.6.3):
+  eslint-config-upleveled@8.11.3(@babel/core@7.26.0)(@types/eslint@9.6.1)(@types/node@20.17.1)(@types/react-dom@18.3.1)(@types/react@18.3.12)(eslint@9.13.0(jiti@2.4.0))(globals@15.12.0)(typescript@5.6.3):
     dependencies:
       '@babel/eslint-parser': 7.25.9(@babel/core@7.26.0)(eslint@9.13.0(jiti@2.4.0))
       '@eslint/compat': 1.2.2(eslint@9.13.0(jiti@2.4.0))
@@ -7699,7 +7745,7 @@ snapshots:
       eslint-plugin-testing-library: 6.4.0(eslint@9.13.0(jiti@2.4.0))(typescript@5.6.3)
       eslint-plugin-unicorn: 56.0.0(eslint@9.13.0(jiti@2.4.0))
       eslint-plugin-upleveled: 2.1.13(eslint@9.13.0(jiti@2.4.0))
-      globals: 15.11.0
+      globals: 15.12.0
       is-plain-obj: 4.1.0
       sort-package-json: 2.10.1
       strip-json-comments: 5.0.1
@@ -8235,6 +8281,8 @@ snapshots:
 
   globals@15.11.0: {}
 
+  globals@15.12.0: {}
+
   globalthis@1.0.4:
     dependencies:
       define-properties: 1.2.1
@@ -8666,6 +8714,8 @@ snapshots:
 
   known-css-properties@0.34.0: {}
 
+  known-css-properties@0.35.0: {}
+
   language-subtag-registry@0.3.23: {}
 
   language-tags@1.0.9:
@@ -8760,6 +8810,10 @@ snapshots:
   mdn-data@2.10.0: {}
 
   mdn-data@2.12.0: {}
+
+  mdn-data@2.12.1: {}
+
+  mdn-data@2.12.2: {}
 
   media-typer@0.3.0: {}
 
@@ -9088,6 +9142,11 @@ snapshots:
       postcss: 8.4.47
 
   postcss-selector-parser@6.1.2:
+    dependencies:
+      cssesc: 3.0.0
+      util-deprecate: 1.0.2
+
+  postcss-selector-parser@7.0.0:
     dependencies:
       cssesc: 3.0.0
       util-deprecate: 1.0.2
@@ -9651,16 +9710,28 @@ snapshots:
     dependencies:
       stylelint: 16.10.0(typescript@5.6.3)
 
-  stylelint-config-upleveled@1.1.5(postcss@8.4.47)(stylelint-scss@6.8.1(stylelint@16.10.0(typescript@5.6.3)))(stylelint@16.10.0(typescript@5.6.3)):
+  stylelint-config-upleveled@1.1.5(postcss@8.4.47)(stylelint-scss@6.10.0(stylelint@16.10.0(typescript@5.6.3)))(stylelint@16.10.0(typescript@5.6.3)):
     dependencies:
       postcss-styled-syntax: 0.6.4(postcss@8.4.47)
       stylelint: 16.10.0(typescript@5.6.3)
       stylelint-config-css-modules: 4.4.0(stylelint@16.10.0(typescript@5.6.3))
       stylelint-config-recommended: 14.0.1(stylelint@16.10.0(typescript@5.6.3))
       stylelint-config-recommended-scss: 14.1.0(postcss@8.4.47)(stylelint@16.10.0(typescript@5.6.3))
-      stylelint-scss: 6.8.1(stylelint@16.10.0(typescript@5.6.3))
+      stylelint-scss: 6.10.0(stylelint@16.10.0(typescript@5.6.3))
     transitivePeerDependencies:
       - postcss
+
+  stylelint-scss@6.10.0(stylelint@16.10.0(typescript@5.6.3)):
+    dependencies:
+      css-tree: 3.0.1
+      is-plain-object: 5.0.0
+      known-css-properties: 0.35.0
+      mdn-data: 2.12.2
+      postcss-media-query-parser: 0.2.3
+      postcss-resolve-nested-selector: 0.1.6
+      postcss-selector-parser: 7.0.0
+      postcss-value-parser: 4.2.0
+      stylelint: 16.10.0(typescript@5.6.3)
 
   stylelint-scss@6.8.1(stylelint@16.10.0(typescript@5.6.3)):
     dependencies:
@@ -9939,11 +10010,11 @@ snapshots:
       escalade: 3.2.0
       picocolors: 1.1.1
 
-  uploadthing@7.2.0(express@4.21.1)(next@15.0.0-canary.171(@babel/core@7.26.0)(react-dom@19.0.0-rc-5d19e1c8-20240923(react@19.0.0-rc-5d19e1c8-20240923))(react@19.0.0-rc-5d19e1c8-20240923)(sass@1.80.4)):
+  uploadthing@7.3.0(express@4.21.1)(next@15.0.0-canary.171(@babel/core@7.26.0)(react-dom@19.0.0-rc-5d19e1c8-20240923(react@19.0.0-rc-5d19e1c8-20240923))(react@19.0.0-rc-5d19e1c8-20240923)(sass@1.80.4)):
     dependencies:
       '@effect/platform': 0.69.8(effect@3.10.3)
-      '@uploadthing/mime-types': 0.3.1
-      '@uploadthing/shared': 7.1.0
+      '@uploadthing/mime-types': 0.3.2
+      '@uploadthing/shared': 7.1.1
       effect: 3.10.3
     optionalDependencies:
       express: 4.21.1

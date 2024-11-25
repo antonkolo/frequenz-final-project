@@ -1,6 +1,125 @@
 @use '../styles/mixins';
 @import '../styles/variables';
 
-.wrapper {
-  @include mixins.page-wrapper;
+.hero {
+  background-color: $black;
+  color: $white;
+  overflow: hidden;
+}
+
+.inner-container {
+  margin: 0 auto;
+  padding-right: 0;
+  display: flex;
+  max-width: $max-width;
+  justify-content: space-between;
+  border-left: $border-white;
+  border-right: $border-white;
+  border-top: $border-white;
+  overflow: hidden;
+}
+
+.title {
+  font-size: 90px;
+  font-weight: 300;
+  line-height: 0.9;
+  text-transform: uppercase;
+}
+
+.subtitle {
+  font-size: 24px;
+  margin-top: 4rem;
+  font-weight: 300;
+}
+
+.content-left {
+  display: flex;
+  flex-direction: column;
+  padding-left: 4rem;
+  padding-top: 4rem;
+  padding-bottom: 2rem;
+  gap: 5rem;
+  align-items: flex-start;
+}
+
+.explore-button {
+  font-weight: 300;
+  color: $white;
+  background-color: transparent;
+  font-size: 32px;
+  text-transform: uppercase;
+  padding: 16px 12px;
+  border: $border-white;
+}
+
+.ticker-container {
+  max-width: $max-width;
+  overflow: hidden;
+  margin: 0 auto;
+}
+
+.ticker {
+  display: flex;
+  width: 100%;
+  background-color: $accent-color;
+  span {
+    white-space: nowrap;
+    text-transform: uppercase;
+    padding: 30px 0;
+    font-size: 2.5rem;
+    font-family: $font-special;
+    color: $black;
+    animation: 30s linear 1s infinite running animate;
+    animation-delay: -30s;
+
+    &:nth-child(2) {
+      animation: animate2 30s linear infinite;
+      animation-delay: -15s;
+    }
+  }
+}
+
+.ticker-black {
+  display: flex;
+  width: 100%;
+  background-color: $black;
+  span {
+    white-space: nowrap;
+    text-transform: uppercase;
+    padding: 30px 0;
+    font-size: 2.5rem;
+    font-family: $font-special;
+    color: $white;
+    animation: 30s linear 1s infinite running animate;
+    animation-delay: -30s;
+
+    &:nth-child(2) {
+      animation: animate2 30s linear infinite;
+      animation-delay: -15s;
+    }
+  }
+}
+
+@keyframes animate {
+  0% {
+    transform: translateX(100%);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
+}
+
+@keyframes animate2 {
+  0% {
+    transform: translateX(0%);
+  }
+  100% {
+    transform: translateX(-200%);
+  }
+}
+
+// features section
+
+.features-section {
+  padding-top: 3rem;
 }
