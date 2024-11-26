@@ -34,7 +34,6 @@ export default async function RootLayout({
     <html lang="en" className={`${ballPill.variable}`}>
       <body>
         <AppWrapper user={user}>
-          <Header />
           <ApolloClientProvider>{children}</ApolloClientProvider>
         </AppWrapper>
         <Footer />

@@ -12,3 +12,13 @@
     }
   }
 }
+
+.nav--light {
+  border: $border-black;
+
+  li {
+    &:not(:last-child) {
+      border-right: $border-black;
+    }
+  }
+}

@@ -17,17 +17,20 @@ export type Sample = {
   editedAt: string;
   description: string;
   fileKey: string;
+  user?: User;
 };
 
 export type Category = {
   id: number;
   name: string;
+  sampleCategories?: SampleCategory[];
 };
 
 export type SampleCategory = {
   id: number;
   sampleId: Sample['id'];
   categoryId: Category['id'];
+  sample?: Sample;
 };
 
 export type SampleLike = {

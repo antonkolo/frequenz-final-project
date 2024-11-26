@@ -77,6 +77,7 @@ const typeDefs = gql`
     title: String!
     user: User
     userId: Int
+    fileKey: String!
     sourceUrl: String!
     createdAt: String!
     editedAt: String!

@@ -15,8 +15,6 @@ type Props = {
 };
 
 export default function Sample(props: Props) {
-  const user = useUserContext();
-
   return (
     <Suspense fallback={<div>Loading...</div>}>
       <div>
@@ -24,7 +22,7 @@ export default function Sample(props: Props) {
           <h2>{props.title}</h2>
         </Link>
         <AudioPlayer sourceUrl={props.sourceUrl} />
-        {user ? (
+        {props.user ? (
           <LikeButton sampleId={props.id} user={props.user} />
         ) : (
           <Link href={'/sign-in'}>Login to save sounds</Link>

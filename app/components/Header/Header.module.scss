@@ -8,19 +8,23 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  border-left: $border-white;
-  border-right: $border-white;
 }
 
 .header-dark {
   @include header;
   background-color: $black;
   color: $white;
+  border-left: $border-white;
+  border-right: $border-white;
 }
 
 .header-light {
   @include header;
+  padding-bottom: 90px;
   background-color: $white;
+  color: $black;
+  border-left: $border-black;
+  border-right: $border-black;
 }
 
 .text-logo {
@@ -31,4 +35,8 @@
 .container {
   background-color: $black;
   width: 100%;
+}
+
+.container--light {
+  background-color: $white;
 }

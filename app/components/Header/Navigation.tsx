@@ -6,11 +6,17 @@ import { LogoutButton } from '../../(auth)/logout/LogoutButton';
 import { useUserContext } from '../../../context/context';
 import styles from './Navigation.module.scss';
 
-export default function Nav() {
+type Props = {
+  style: 'dark' | 'light';
+};
+
+export default function Nav({ style }: Props) {
   const user = useUserContext();
   return (
     <nav>
-      <ul className={styles.nav}>
+      <ul
+        className={`${styles.nav} ${style === 'light' && styles['nav--light']}`}
+      >
         <li>
           <Link href="/sounds">Sounds</Link>
         </li>
