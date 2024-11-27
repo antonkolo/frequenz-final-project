@@ -1,7 +1,27 @@
 @import '../../../styles/variables';
 
 .wrapper {
+  position: relative;
+  height: 50px;
   display: flex;
-  flex-direction: column;
-  border: 2px solid black;
+  align-items: center;
+  overflow: hidden;
+
+  .play-button {
+    background-color: transparent;
+    border: none;
+    position: absolute;
+    top: 50%;
+    right: 30%;
+    transform: translate(-50%, -50%);
+    display: none;
+    z-index: 50;
+    opacity: 0;
+  }
+  &:hover {
+    .play-button {
+      display: block;
+      opacity: 1;
+    }
+  }
 }

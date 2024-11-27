@@ -31,7 +31,7 @@ function Sphere({
     <mesh
       onPointerOver={() => setIsHovered(true)}
       onPointerOut={() => setIsHovered(false)}
-      position={[0, 0.2, 0]}
+      position={[1, 0.2, 0]}
       castShadow
       onClick={onClick}
     >
@@ -53,7 +53,7 @@ export default function Scene({ analyzer, onClick }: Props): ReactNode {
   return (
     <>
       {/* camera */}
-      <PerspectiveCamera makeDefault position={[0, 0, 3.2]} />
+      <PerspectiveCamera makeDefault position={[0, 0, 3.5]} />
       {/* <OrbitControls ref={orbitControlsRef} /> */}
 
       {/* sphere */}

@@ -50,6 +50,7 @@
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
+    "@types/wavesurfer.js": "^6.0.12",
     "@types/webaudioapi": "^0.0.27",
     "dotenv-safe": "^9.1.0",
     "eslint": "^9.13.0",

@@ -6,6 +6,7 @@ import React, { useState } from 'react';
 import type { Sample, SampleLike, User } from '../../../types/types';
 import { GET } from '../../api/graphql/route';
 import { GET_LIKED_SAMPLES } from '../../profile/[handle]/components/LikedSamplesList';
+import BookmarkIcon from '../Sample/BookmarkIcon';
 
 // define queries and mutations
 const GET_LIKE = gql`
@@ -116,7 +117,11 @@ export default function LikeButton({
 
   return (
     <button disabled={user ? false : true} onClick={handleLikeClick}>
-      {isLiked ? 'Remove Like' : 'Like'}
+      {isLiked ? (
+        <BookmarkIcon size="28" color="white" fill="black" />
+      ) : (
+        <BookmarkIcon size="28" color="black" fill="none" />
+      )}
     </button>
   );
 }

@@ -1,0 +1,93 @@
+@import '/styles//variables';
+
+.container {
+  max-width: $max-width;
+  margin: 0 auto;
+  border-top: $border-black;
+  border-left: $border-black;
+  display: flex;
+  justify-content: space-between;
+}
+
+.menu-title {
+  font-size: 3rem;
+  text-transform: uppercase;
+  font-weight: 300;
+  transform: rotate(-90deg);
+  margin-top: 4rem;
+  margin-left: -1rem;
+}
+
+.title-wrapper {
+  max-width: 4rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.nav-wrapper {
+  display: flex;
+  gap: 2rem;
+}
+
+.nav {
+  display: flex;
+  flex-direction: column;
+  width: 360px;
+  max-height: 83vh;
+  overflow: scroll;
+  border-left: $border-black;
+  border-right: $border-black;
+  div {
+    cursor: pointer;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 6rem;
+    border-bottom: $border-black;
+
+    position: relative;
+    overflow: hidden;
+    &::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 0;
+      height: 100%;
+      background-color: $black; // Choose your desired color
+      transition: width 0.3s ease-out;
+      // z-index: -1;
+    }
+
+    h3,
+    p {
+      position: relative;
+      z-index: 2;
+    }
+  }
+
+  .selected {
+    color: $white;
+  }
+  .selected::before {
+    // background-color: $black;
+
+    width: 100%;
+  }
+}
+
+.sample-list-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 4rem;
+  flex-basis: 720px;
+
+  h2 {
+    font-family: $font-special;
+    font-weight: 300;
+    line-height: 7rem;
+    font-size: 5rem;
+    text-transform: uppercase;
+    border-bottom: $border-black;
+  }
+}

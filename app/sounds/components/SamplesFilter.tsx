@@ -4,6 +4,7 @@ import { gql, useSuspenseQuery } from '@apollo/client';
 import React, { useState } from 'react';
 import { useUserContext } from '../../../context/context';
 import type { Category, Sample } from '../../../types/types';
+import styles from './SamplesFilter.module.scss';
 import { SamplesList } from './SamplesList';
 
 const GET_CATEGORIES_WITH_SAMPLE_CATEGORIES = gql`
@@ -49,46 +50,62 @@ export default function SamplesFilter() {
   >(undefined);
 
   const user = useUserContext();
+
+  // 1. clicking on a div has to set the classname of this div to 'selected'
+  // 2. clicking on a div has to set selected category to the category this div refers to
+
   return (
-    <>
-      <ul>
-        <li>
-          <div
-            onClick={() => {
-              setSelectedCategory(undefined);
-            }}
-          >
-            <h3>All</h3>
-            <p>Results</p>
-          </div>
-        </li>
-        {data.categories.map((category) => {
-          return (
-            <li>
-              <div
-                onClick={() => {
-                  setSelectedCategory(category);
-                }}
-              >
-                <h3>{category.name}</h3>
-                <p>{category.sampleCategories?.length} Results</p>
-              </div>
-            </li>
-          );
-        })}
-      </ul>
-      <SamplesList
-        samples={
-          selectedCategory
-            ? selectedCategory!.sampleCategories!.length > 0
-              ? selectedCategory!.sampleCategories?.flatMap(
-                  (sampleCategory) => sampleCategory.sample,
-                )
-              : undefined
-            : uniqueSamples
-        }
-        user={user}
-      />
-    </>
+    <div className={styles.container}>
+      <div className={styles['nav-wrapper']}>
+        <div className={styles['title-wrapper']}>
+          <h2 className={styles['menu-title']}>Menu</h2>
+        </div>
+        <ul className={styles.nav}>
+          <li>
+            <div
+              className={!selectedCategory ? styles.selected : ''}
+              onClick={() => {
+                setSelectedCategory(undefined);
+              }}
+            >
+              <h3>All</h3>
+              <p>{uniqueSamples.length} Results</p>
+            </div>
+          </li>
+          {data.categories.map((category) => {
+            return (
+              <li>
+                <div
+                  className={
+                    selectedCategory?.id === category.id ? styles.selected : ''
+                  }
+                  onClick={() => {
+                    setSelectedCategory(category);
+                  }}
+                >
+                  <h3>{category.name}</h3>
+                  <p>{category.sampleCategories?.length} Results</p>
+                </div>
+              </li>
+            );
+          })}
+        </ul>
+      </div>
+      <div className={styles['sample-list-wrapper']}>
+        <h2>Browse</h2>
+        <SamplesList
+          samples={
+            selectedCategory
+              ? selectedCategory!.sampleCategories!.length > 0
+                ? selectedCategory!.sampleCategories?.flatMap(
+                    (sampleCategory) => sampleCategory.sample,
+                  )
+                : undefined
+              : uniqueSamples
+          }
+          user={user}
+        />
+      </div>
+    </div>
   );
 }

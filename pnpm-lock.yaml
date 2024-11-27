@@ -117,6 +117,9 @@ importers:
       '@types/react-dom':
         specifier: ^18
         version: 18.3.1
+      '@types/wavesurfer.js':
+        specifier: ^6.0.12
+        version: 6.0.12
       '@types/webaudioapi':
         specifier: ^0.0.27
         version: 0.0.27
@@ -1577,6 +1580,9 @@ packages:
   '@types/connect@3.4.38':
     resolution: {integrity: sha512-K6uROf1LD88uDQqJCktA4yzL1YYAK6NgfsI0v/mTgyPKWsX1CnJ0XPSDhViejru1GcRkLWb8RlzFYJRqGUbaug==}
 
+  '@types/debounce@1.2.4':
+    resolution: {integrity: sha512-jBqiORIzKDOToaF63Fm//haOCHuwQuLa2202RK4MozpA6lh93eCBc+/8+wZn5OzjJt3ySdc+74SXWXB55Ewtyw==}
+
   '@types/dotenv-safe@8.1.6':
     resolution: {integrity: sha512-ftZXu3WGT6ALq+f98IX2gWriGMPds+0ku5h8kZewNpY47ua+Z+XNcin9apZ2kVd4B9LV1vMfUOyDf1/hhreR0Q==}
 
@@ -1663,6 +1669,9 @@ packages:
 
   '@types/three@0.169.0':
     resolution: {integrity: sha512-oan7qCgJBt03wIaK+4xPWclYRPG9wzcg7Z2f5T8xYTNEF95kh0t0lklxLLYBDo7gQiGLYzE6iF4ta7nXF2bcsw==}
+
+  '@types/wavesurfer.js@6.0.12':
+    resolution: {integrity: sha512-oM9hYlPIVms4uwwoaGs9d0qp7Xk7IjSGkdwgmhUymVUIIilRfjtSQvoOgv4dpKiW0UozWRSyXfQqTobi0qWyCw==}
 
   '@types/webaudioapi@0.0.27':
     resolution: {integrity: sha512-UWVaT2JkjAMU0x9BHWE8Lm4cFfVAzd5Av1v+b7phOXBY047prADh/dz+VW5SG0CxVutcE7DXtR9rTKFq76ODaQ==}
@@ -6575,6 +6584,8 @@ snapshots:
     dependencies:
       '@types/node': 20.17.1
 
+  '@types/debounce@1.2.4': {}
+
   '@types/dotenv-safe@8.1.6':
     dependencies:
       '@types/node': 20.17.1
@@ -6682,6 +6693,10 @@ snapshots:
       '@webgpu/types': 0.1.49
       fflate: 0.8.2
       meshoptimizer: 0.18.1
+
+  '@types/wavesurfer.js@6.0.12':
+    dependencies:
+      '@types/debounce': 1.2.4
 
   '@types/webaudioapi@0.0.27': {}
 

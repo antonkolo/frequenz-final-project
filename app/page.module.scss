@@ -8,9 +8,10 @@
 }
 
 .inner-container {
+  position: relative;
   margin: 0 auto;
   padding-right: 0;
-  display: flex;
+
   max-width: $max-width;
   justify-content: space-between;
   border-left: $border-white;
@@ -33,16 +34,23 @@
 }
 
 .content-left {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 50;
+  max-width: 50%;
+  height: 100%;
   display: flex;
   flex-direction: column;
   padding-left: 4rem;
   padding-top: 4rem;
   padding-bottom: 2rem;
-  gap: 5rem;
   align-items: flex-start;
+  pointer-events: none;
 }
 
 .explore-button {
+  margin: auto 0;
   font-weight: 300;
   color: $white;
   background-color: transparent;
