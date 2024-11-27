@@ -3,8 +3,8 @@
 import WavesurferPlayer from '@wavesurfer/react';
 import React, { Suspense, useState } from 'react';
 import type WaveSurfer from 'wavesurfer.js';
-import PauseIcon from '../PauseIcon/PauseIcon';
-import PlayIcon from '../PlayIcon/PlayIcon';
+import PauseIcon from '../Icons/PauseIcon';
+import PlayIcon from '../Icons/PlayIcon';
 import styles from './AudioPlayer.module.scss';
 
 export function AudioPlayer({ sourceUrl }: { sourceUrl: string }) {
@@ -22,6 +22,8 @@ export function AudioPlayer({ sourceUrl }: { sourceUrl: string }) {
     <Suspense fallback={<div>Loading...</div>}>
       <div className={styles.wrapper}>
         <WavesurferPlayer
+          progressColor={'#D9D9D9'}
+          barWidth={2}
           cursorWidth={0}
           width={344}
           waveColor={'black'}

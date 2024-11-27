@@ -18,6 +18,7 @@ export type Sample = {
   description: string;
   fileKey: string;
   user?: User;
+  sampleCategories?: SampleCategory[];
 };
 
 export type Category = {
@@ -31,6 +32,7 @@ export type SampleCategory = {
   sampleId: Sample['id'];
   categoryId: Category['id'];
   sample?: Sample;
+  category?: Category;
 };
 
 export type SampleLike = {

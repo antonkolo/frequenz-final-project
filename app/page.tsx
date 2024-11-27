@@ -1,7 +1,7 @@
 import Link from 'next/link';
-import ArrowIcon from './components/ArrowIcon/ArrowIcon';
 import { FeaturesList } from './components/FeaturesList/FeaturesList';
 import Header from './components/Header/Header';
+import ArrowIcon from './components/Icons/ArrowIcon';
 import RandomWavePlayer from './components/RandomWavePlayer/RandomWavePlayer';
 import styles from './page.module.scss';
 

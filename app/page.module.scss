@@ -50,6 +50,7 @@
 }
 
 .explore-button {
+  pointer-events: all;
   margin: auto 0;
   font-weight: 300;
   color: $white;

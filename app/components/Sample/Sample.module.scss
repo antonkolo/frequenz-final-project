@@ -27,3 +27,23 @@
   border-top: $border-black;
   border-bottom: $border-black;
 }
+
+.icons-wrapper {
+  display: flex;
+}
+
+.bookmark-wrapper {
+  display: flex;
+  align-items: center;
+}
+
+.open-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  outline: none;
+  border: none;
+  background-color: $black;
+  padding: 0;
+  cursor: pointer;
+}

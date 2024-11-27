@@ -4,8 +4,9 @@ import Link from 'next/link';
 import React, { Suspense } from 'react';
 import { type User } from '../../../types/types';
 import { AudioPlayer } from '../AudioPlayer/AudioPlayer';
+import BookmarkIcon from '../Icons/BookmarkIcon';
+import OpenIcon from '../Icons/OpenIcon';
 import LikeButton from '../LikeButton/LikeButton';
-import BookmarkIcon from './BookmarkIcon';
 import styles from './Sample.module.scss';
 
 type Props = {
@@ -28,14 +29,24 @@ export default function Sample(props: Props) {
         <div className={styles['info-wrapper']}>
           <Link href={`/profile/${props.creator}`}>{props.creator}</Link>
 
-          <div>
+          <div className={styles['icons-wrapper']}>
             {props.user ? (
               <LikeButton sampleId={props.id} user={props.user} />
             ) : (
-              <Link href={'/sign-in'} target="blank">
+              <Link
+                className={styles['bookmark-wrapper']}
+                href={'/sign-in'}
+                target="blank"
+              >
                 <BookmarkIcon size="28" color="black" fill="none" />
               </Link>
             )}
+            <Link
+              href={`/sounds/${props.id}`}
+              className={styles['open-button']}
+            >
+              <OpenIcon size="28" />
+            </Link>
           </div>
         </div>
       </div>

@@ -6,7 +6,7 @@ import React, { useState } from 'react';
 import type { Sample, SampleLike, User } from '../../../types/types';
 import { GET } from '../../api/graphql/route';
 import { GET_LIKED_SAMPLES } from '../../profile/[handle]/components/LikedSamplesList';
-import BookmarkIcon from '../Sample/BookmarkIcon';
+import BookmarkIcon from '../Icons/BookmarkIcon';
 
 // define queries and mutations
 const GET_LIKE = gql`
