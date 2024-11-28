@@ -1,0 +1,21 @@
+@import '/styles/variables';
+
+.button {
+  display: flex;
+  align-items: center;
+  padding: 0;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+
+  svg {
+    background-color: $white;
+  }
+
+  &.liked {
+    svg {
+      background-color: $black;
+      border-right: $border-white;
+    }
+  }
+}

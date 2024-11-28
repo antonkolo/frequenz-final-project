@@ -7,6 +7,7 @@ import type { Sample, SampleLike, User } from '../../../types/types';
 import { GET } from '../../api/graphql/route';
 import { GET_LIKED_SAMPLES } from '../../profile/[handle]/components/LikedSamplesList';
 import BookmarkIcon from '../Icons/BookmarkIcon';
+import styles from './LikeButton.module.scss';
 
 // define queries and mutations
 const GET_LIKE = gql`
@@ -116,7 +117,11 @@ export default function LikeButton({
   };
 
   return (
-    <button disabled={user ? false : true} onClick={handleLikeClick}>
+    <button
+      className={`${styles.button} ${isLiked && styles.liked}`}
+      disabled={user ? false : true}
+      onClick={handleLikeClick}
+    >
       {isLiked ? (
         <BookmarkIcon size="28" color="white" fill="black" />
       ) : (

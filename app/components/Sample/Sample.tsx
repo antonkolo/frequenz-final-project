@@ -31,7 +31,10 @@ export default function Sample(props: Props) {
 
           <div className={styles['icons-wrapper']}>
             {props.user ? (
-              <LikeButton sampleId={props.id} user={props.user} />
+              <LikeButton
+                sampleId={props.id}
+                user={props.user}
+              />
             ) : (
               <Link
                 className={styles['bookmark-wrapper']}

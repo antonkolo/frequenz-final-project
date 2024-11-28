@@ -80,6 +80,9 @@ importers:
       react-select:
         specifier: ^5.8.3
         version: 5.8.3(@types/react@18.3.12)(react-dom@19.0.0-rc-5d19e1c8-20240923(react@19.0.0-rc-5d19e1c8-20240923))(react@19.0.0-rc-5d19e1c8-20240923)
+      react-use-downloader:
+        specifier: ^1.2.8
+        version: 1.2.8(react@19.0.0-rc-5d19e1c8-20240923)
       sass:
         specifier: ^1.80.4
         version: 1.80.4
@@ -3951,6 +3954,12 @@ packages:
     peerDependencies:
       react: '>=16.6.0'
       react-dom: '>=16.6.0'
+
+  react-use-downloader@1.2.8:
+    resolution: {integrity: sha512-JYb9esgw2TmODSCmSEFSEd/lJ0xtO50ugOu2T/PaO0JNYvscBqJT0uY452p7N5mf37jqSET7Q5DxcgixH1631Q==}
+    engines: {node: '>=8', npm: '>=5'}
+    peerDependencies:
+      react: ^17.0.2 || ^18
 
   react-use-measure@2.1.1:
     resolution: {integrity: sha512-nocZhN26cproIiIduswYpV5y5lQpSQS1y/4KuvUCjSKmw7ZWIS/+g3aFnX3WdBkyuGUtTLif3UTqnLLhbDoQig==}
@@ -9274,6 +9283,10 @@ snapshots:
       prop-types: 15.8.1
       react: 19.0.0-rc-5d19e1c8-20240923
       react-dom: 19.0.0-rc-5d19e1c8-20240923(react@19.0.0-rc-5d19e1c8-20240923)
+
+  react-use-downloader@1.2.8(react@19.0.0-rc-5d19e1c8-20240923):
+    dependencies:
+      react: 19.0.0-rc-5d19e1c8-20240923
 
   react-use-measure@2.1.1(react-dom@19.0.0-rc-5d19e1c8-20240923(react@19.0.0-rc-5d19e1c8-20240923))(react@19.0.0-rc-5d19e1c8-20240923):
     dependencies:

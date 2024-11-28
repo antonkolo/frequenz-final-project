@@ -4,8 +4,11 @@ import { gql, useSuspenseQuery } from '@apollo/client';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import React, { Suspense } from 'react';
+import useDownloader from 'react-use-downloader';
 import { useUserContext } from '../../../context/context';
+import { UPLOADTHING_URL } from '../../../lib/constants';
 import type { Sample } from '../../../types/types';
+import { timestampToDate } from '../../../utils/timestampToDate';
 import { AudioPlayerFull } from '../AudioPlayerFull/AudioPlayerFull';
 import ArrowBackIcon from '../Icons/ArrowBack';
 import BookmarkIcon from '../Icons/BookmarkIcon';
@@ -32,6 +35,8 @@ const GET_SAMPLE = gql`
       sourceUrl
       description
       title
+      createdAt
+      fileKey
       user {
         handle
       }
@@ -53,6 +58,7 @@ export default function SingleSampleCard({ id }: Props) {
   const { sample } = data;
 
   const router = useRouter();
+  const { download } = useDownloader();
 
   return (
     <Suspense fallback={<div>Loading...</div>}>
@@ -76,10 +82,11 @@ export default function SingleSampleCard({ id }: Props) {
         {/* sample info */}
         <h2 className={styles.title}>{sample.title}</h2>
         <AudioPlayerFull sourceUrl={sample.sourceUrl} />
-        <div className={styles['user-info-wrapper']}>
+        <div className={styles['info-wrapper']}>
           <Link href={`/profile/${sample.user?.handle}}`}>
             {` ${sample.user?.handle}`}
           </Link>
+          <p>{timestampToDate(sample.createdAt)}</p>
         </div>
 
         <div className={styles['bottom-content']}>
@@ -95,10 +102,15 @@ export default function SingleSampleCard({ id }: Props) {
                 href={'/sign-in'}
                 target="blank"
               >
-                <BookmarkIcon size="28" color="black" fill="none" />
+                <BookmarkIcon size="32" color="black" fill="none" />
               </Link>
             )}
-            <button className={styles['open-button']}>
+            <button
+              onClick={() =>
+                download(`${UPLOADTHING_URL}${sample.fileKey}`, sample.title)
+              }
+              className={styles['download-button']}
+            >
               <DownloadIcon size="28" />
             </button>
           </div>
