@@ -1,38 +1,54 @@
+// Modal.tsx
 'use client';
 
-import {
-  Description,
-  Dialog,
-  DialogBackdrop,
-  DialogPanel,
-  DialogTitle,
-} from '@headlessui/react';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import UploadSampleForm from '../../../components/UploadSampleForm/UploadSampleForm';
 import styles from './Modal.module.scss';
 
-export default function Modal() {
-  const [isOpen, setIsOpen] = useState(false);
+type Props = {
+  isOpen: boolean;
+  setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
+};
+
+export default function Modal({ isOpen, setIsOpen }: Props) {
+  // Always render the modal, but control its visibility
+  const [showModal, setShowModal] = useState(false);
+
+  useEffect(() => {
+    if (isOpen) {
+      // First render the modal
+      setShowModal(true);
+    } else {
+      // Hide the modal and handle unmounting in CSS
+      setShowModal(false);
+    }
+  }, [isOpen]);
+
+  // Handle clicking outside
+  const handleBackdropClick = () => {
+    setShowModal(false);
+    setIsOpen(false);
+  };
+
   return (
-    <>
-      <button onClick={() => setIsOpen(true)}>Upload Sample</button>
-      <Dialog
-        className={styles.modal}
-        open={isOpen}
-        onClose={() => setIsOpen(false)}
-      >
-        <DialogBackdrop className={styles.backdrop} />
-        <div className={styles.container}>
-          <DialogPanel className={styles.panel}>
-            <DialogTitle>Add new sound</DialogTitle>
-            <UploadSampleForm
-              closeDialog={() => {
-                setIsOpen(false);
-              }}
-            />
-          </DialogPanel>
+    <div className={`${styles.modal} ${showModal ? styles.modalVisible : ''}`}>
+      <div className={styles.backdrop} onClick={handleBackdropClick} />
+      <div className={styles.container}>
+        <div className={styles.panel}>
+          <button
+            className={styles['close-button']}
+            onClick={handleBackdropClick}
+          >
+            &times;
+          </button>
+          <UploadSampleForm
+            closeDialog={() => {
+              setShowModal(false);
+              setIsOpen(false);
+            }}
+          />
         </div>
-      </Dialog>
-    </>
+      </div>
+    </div>
   );
 }

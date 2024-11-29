@@ -4,29 +4,8 @@ import { UploadThingError } from 'uploadthing/server';
 import { getValidSession } from '../../../database/sessions';
 
 const f = createUploadthing();
-const auth = (req: Request) => ({ id: 'fakeId' }); // Fake auth function
+
 export const myFileRouter = {
-  profilePicture: f({ image: { maxFileSize: '4MB' } })
-    // Set permissions and file types for this FileRoute
-    .middleware(async ({ req }) => {
-      // This code runs on your server before upload
-
-      const sessionTokenCookie = await req.cookies.get('sessionToken');
-
-      const user = await auth(req);
-
-      // If you throw, the user will not be able to upload
-      if (!sessionTokenCookie) throw new UploadThingError('Unauthorized');
-      // Whatever is returned here is accessible in onUploadComplete as `metadata`
-      return { userId: user.id };
-    })
-    .onUploadComplete(async ({ metadata, file }) => {
-      // This code RUNS ON YOUR SERVER after upload
-      console.log('Upload complete for userId:', metadata.userId);
-      console.log('file url', file.url);
-      // !!! Whatever is returned here is sent to the clientside `onClientUploadComplete` callback
-      return { uploadedBy: metadata.userId };
-    }),
   // Upload samples route
   audioSample: f({ audio: {} })
     .middleware(async ({ req }) => {

@@ -3,8 +3,7 @@
 .container {
   max-width: $max-width;
   margin: 0 auto;
-  border: 2px solid black;
-  display: flex;
-  flex-direction: column;
-  gap: 2rem;
+  border-top: $border-black;
+  border-left: $border-black;
+  min-height: 85vh;
 }

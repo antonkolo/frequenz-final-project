@@ -1,0 +1,145 @@
+@import '/styles/variables';
+
+.container {
+  display: flex;
+  gap: 7rem;
+  width: 100%;
+}
+
+.info-wrapper {
+  display: flex;
+  flex-direction: column;
+
+  height: 100%;
+  border-right: $border-black;
+
+  .title-wrapper {
+    height: 35%;
+    border-bottom: $border-black;
+    padding-left: 1.5rem;
+    padding-right: 3rem;
+    padding-top: 2rem;
+    .title {
+      font-size: 3.5rem;
+      font-weight: 300;
+      max-width: 7ch;
+    }
+  }
+
+  .step-wrapper {
+    padding-left: 1.5rem;
+    padding-right: 3rem;
+    padding-top: 2rem;
+    font-size: 2rem;
+    font-weight: 300;
+  }
+}
+
+.content-wrapper {
+  padding-top: 2rem;
+  flex-basis: 50vw;
+  margin: 0 auto;
+}
+
+.upload-wrapper {
+  display: inline-flex;
+
+  svg {
+    background-color: $black;
+  }
+}
+
+.instructions {
+  margin-top: 25%;
+  max-width: 65ch;
+}
+
+.upload-button-container {
+  font-family: 'Helvetica Neue', serif;
+  font-weight: 300;
+  font-size: 2rem;
+  text-transform: uppercase;
+  display: inline-block;
+  padding: 0 0.5rem;
+  border: $border-black;
+  cursor: pointer;
+  background-color: transparent;
+
+  input,
+  div {
+    display: none;
+  }
+
+  label {
+    cursor: pointer;
+    height: 100%;
+    width: 100%;
+  }
+}
+
+.player-wrapper {
+  margin-top: 2rem;
+}
+
+.back-button {
+  cursor: pointer;
+  gap: 0.5rem;
+  display: flex;
+  align-items: center;
+  background-color: transparent;
+  border: none;
+  font-size: 1rem;
+
+  font-family: 'Helvetica Neue', serif;
+  svg {
+    background-color: $black;
+  }
+}
+
+.form {
+  padding: 1.5rem 0;
+  border-top: $border-black;
+  margin-top: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  .text-input {
+    display: flex;
+    flex-direction: column;
+    text-transform: uppercase;
+    gap: 0.5rem;
+
+    textarea {
+      overflow: auto;
+      outline: none;
+      resize: none;
+      padding: 0.5rem;
+    }
+    input {
+      padding: 0.5rem;
+      overflow: auto;
+      outline: none;
+    }
+  }
+
+  .select {
+    display: flex;
+    flex-direction: column;
+    text-transform: uppercase;
+    gap: 0.5rem;
+    outline: none;
+  }
+
+  .button-wrapper {
+    display: flex;
+    justify-content: flex-end;
+    .save-button {
+      font-family: 'Helvetica Neue', serif;
+      cursor: pointer;
+      background-color: transparent;
+      font-size: 1rem;
+      padding: 0.5rem 1.5rem;
+      border: $border-black;
+    }
+  }
+}

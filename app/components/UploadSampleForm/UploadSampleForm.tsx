@@ -1,17 +1,16 @@
-'use client';
-
 import { gql, useMutation, useSuspenseQuery } from '@apollo/client';
 import React, { useEffect, useState } from 'react';
 import Select from 'react-select';
+import { style } from 'wavesurfer.js/src/util';
 import { useUserContext } from '../../../context/context';
 import { sampleSchema } from '../../../types/schemas';
 import { type Category } from '../../../types/types';
 import { UploadButton } from '../../../utils/uploadthing';
-import ErrorMessage from '../../ErrorMessage';
-import { GET_UPLOADED_SAMPLES } from '../../profile/[handle]/components/UploadedSamplesList';
-import { AudioPlayer } from '../AudioPlayer/AudioPlayer';
+import { AudioPlayerFull } from '../AudioPlayerFull/AudioPlayerFull';
+import ArrowBackIcon from '../Icons/ArrowBack';
+import OpenIcon from '../Icons/OpenIcon';
+import styles from './UploadSampleForm.module.scss';
 
-// grapqhl queries and mutations
 const GET_CATEGORIES = gql`
   query Categories {
     categories {
@@ -43,69 +42,54 @@ const CREATE_SAMPLE = gql`
   }
 `;
 
-type CategoriesResponse = {
-  categories: Category[];
+type Props = {
+  closeDialog: () => void;
 };
 
-export default function UploadSampleForm({
-  closeDialog,
-}: {
-  closeDialog: () => void;
-}) {
-  const [hasMounted, setHasMounted] = useState(false);
-  const [sampleCreated, setSampleCreated] = useState(false);
-  // query states
+export default function UploadSampleForm({ closeDialog }: Props) {
+  // Step management
+  const [currentStep, setCurrentStep] = useState(1);
   const [error, setError] = useState('');
 
-  // input states
+  // Form data
   const [title, setTitle] = useState('');
   const [sourceUrl, setSourceUrl] = useState('');
-  const [categoryIds, setCategoryIds] = useState<Category['id'][]>([]);
+  const [categoryIds, setCategoryIds] = useState<number[]>([]);
   const [description, setDescription] = useState('');
   const [fileKey, setFileKey] = useState('');
-
-  // uploadthing states
-  const [upload, setUpload] = useState(false);
+  const [hasMounted, setHasMounted] = useState(false);
+  const [sampleCreated, setSampleCreated] = useState(false);
 
   useEffect(() => setHasMounted(true), []);
 
-  // get user from context
   const user = useUserContext();
 
-  // prepare category values for the multiselect component
-  const { data: categoryData } =
-    useSuspenseQuery<CategoriesResponse>(GET_CATEGORIES);
-  const options = categoryData.categories.map((category) => {
-    return { value: category.id, label: category.name };
-  });
+  // Get categories for the select input
+  const { data: categoryData } = useSuspenseQuery<{ categories: Category[] }>(
+    GET_CATEGORIES,
+  );
+  const options = categoryData.categories.map((category) => ({
+    value: category.id,
+    label: category.name,
+  }));
 
   const [createSample] = useMutation(CREATE_SAMPLE, {
-    onError: (apolloError) => {
-      setError(apolloError.message);
-      console.log(apolloError.message);
-    },
-    onCompleted: () => {
-      setSampleCreated(true);
-      console.log('mutation completed');
-    },
+    onError: (error) => setError(error.message),
+    onCompleted: () => closeDialog,
   });
 
-  async function handleSubmit(e: React.FormEvent) {
+  const handleSubmit: React.FormEventHandler = async (e) => {
     e.preventDefault();
 
     const newSample = { title, sourceUrl, description, fileKey };
-
-    console.log('submit clicked', newSample);
     const { success, error } = sampleSchema.safeParse(newSample);
 
-    console.log(success);
     if (!success) {
       setError(error.message);
       return;
     }
 
-    console.log('got past error check');
-    const { data } = await createSample({
+    const createdSample = await createSample({
       variables: {
         title,
         userId: user!.id,
@@ -114,82 +98,153 @@ export default function UploadSampleForm({
         description,
         fileKey,
       },
-      refetchQueries: [GET_UPLOADED_SAMPLES],
     });
-    console.log(data);
-  }
+
+    console.log(createdSample);
+
+    if (createdSample) {
+      setCurrentStep(1);
+    }
+  };
+
+  const handleBack = () => {
+    setCurrentStep(1);
+  };
+
+  // if (sampleCreated) {
+  //   return (
+  //     <div>
+  //       <h3>Your Sound is now online!</h3>
+  //       <p>Thanks for contributing to the community</p>
+  //       <button onClick={closeDialog}>Close</button>
+  //     </div>
+  //   );
+  // }
 
   return (
-    <>
-      {!sampleCreated ? (
-        <>
-          {upload && <AudioPlayer sourceUrl={sourceUrl}></AudioPlayer>}
-          {upload || (
+    <div className={styles.container}>
+      <div className={styles['info-wrapper']}>
+        <div className={styles['title-wrapper']}>
+          <h2 className={styles.title}>
+            {currentStep === 1 ? 'UPLOAD FILE' : 'DESCRIBE SOUND'}
+          </h2>
+        </div>
+
+        <div className={styles['step-wrapper']}>
+          <p>STEP {currentStep}/2</p>
+        </div>
+      </div>
+
+      {currentStep === 1 ? (
+        // step 1
+        <div className={styles['content-wrapper']}>
+          <div className={styles['upload-wrapper']}>
+            <OpenIcon size="36"></OpenIcon>
             <UploadButton
+              className={styles['upload-button-container']}
               endpoint="audioSample"
               onClientUploadComplete={(res) => {
-                // Do something with the response
-
                 const [upload] = res;
-
                 if (upload) {
                   setSourceUrl(upload.url);
-                  setUpload(true);
                   setTitle(upload.name);
                   setFileKey(upload.key);
+                  setCurrentStep(2);
                 }
               }}
-              onUploadError={(error: Error) => {
-                // Do something with the error.
+              onUploadError={(error) => {
                 setError(error.message);
               }}
             />
-          )}
-          <form onSubmit={handleSubmit}>
-            <label>
-              Give your sample a name
-              <input
-                placeholder="Soft whisper"
-                maxLength={255}
-                value={title}
-                onChange={(e) => setTitle(e.currentTarget.value)}
-              ></input>
-            </label>
-            <label>
-              Description
-              <input
-                placeholder="Describe your sound"
-                maxLength={255}
-                value={description}
-                onChange={(e) => setDescription(e.currentTarget.value)}
-              ></input>
-            </label>
-            <label>
-              Choose Categories
-              {hasMounted && (
-                <Select
-                  onChange={(e) => {
-                    const categoryIdsArray = e.map((category) =>
-                      Number(category.value),
-                    );
-                    setCategoryIds(categoryIdsArray);
-                  }}
-                  options={options}
-                  isMulti
-                />
-              )}
-            </label>
-            <ErrorMessage>{error}</ErrorMessage>
-            <button>Save</button>
-          </form>
-        </>
+          </div>
+          <div className={styles.instructions}>
+            Audio files must be in MP3, WAV, AIFF, or FLAC format. Maximum file
+            size is 50MB per upload. For the best audio quality, we recommend
+            uncompressed WAV or AIFF files with a minimum sample rate of 44.1kHz
+            and bit depth of 16-bit. Keep individual samples between 1-30
+            seconds in length for optimal usability within the community
+            library.
+          </div>
+        </div>
       ) : (
-        <div>
-          <h3>Your Sound is now online!</h3>
-          <p>Thanks for contributing to the community</p>
+        // step 2
+        <div className={styles['content-wrapper']}>
+          <button onClick={handleBack} className={styles['back-button']}>
+            <ArrowBackIcon size="28" /> Back
+          </button>
+          <div className={styles['player-wrapper']}>
+            <AudioPlayerFull fullWidth sourceUrl={sourceUrl} />
+          </div>
+          <form onSubmit={handleSubmit} className={styles.form}>
+            {hasMounted && (
+              <>
+                <label className={styles.select}>
+                  Select Tag
+                  <Select
+                    styles={{
+                      control: (baseStyles, state) => ({
+                        ...baseStyles,
+                        borderColor: 'black',
+                        '&:hover': {
+                          borderColor: 'black',
+                        },
+                      }),
+                      option: (baseStyles, state) => ({
+                        ...baseStyles,
+                        backgroundColor:
+                          state.isSelected || state.isFocused
+                            ? 'black'
+                            : 'white',
+                        color:
+                          state.isSelected || state.isFocused
+                            ? 'white'
+                            : 'black',
+                        '&:hover': {
+                          backgroundColor: 'black',
+                          color: 'white',
+                        },
+                      }),
+                    }}
+                    options={options}
+                    isMulti
+                    onChange={(selected) => {
+                      setCategoryIds(
+                        selected.map((item) => Number(item.value)),
+                      );
+                    }}
+                  />
+                </label>
+              </>
+            )}
+            <label className={styles['text-input']}>
+              Title
+              <input
+                type="text"
+                value={title}
+                onChange={(e) => setTitle(e.target.value)}
+                maxLength={255}
+              />
+            </label>
+
+            <label className={styles['text-input']}>
+              Description
+              <textarea
+                rows={5}
+                value={description}
+                onChange={(e) => setDescription(e.target.value)}
+                maxLength={510}
+              />
+            </label>
+
+            {error && <div>{error}</div>}
+            <div className={styles['button-wrapper']}>
+              <button className={styles['save-button']} type="submit">
+                Save
+              </button>
+            </div>
+          </form>
         </div>
       )}
-      <button onClick={closeDialog}>Close</button>
-    </>
+    </div>
   );
 }

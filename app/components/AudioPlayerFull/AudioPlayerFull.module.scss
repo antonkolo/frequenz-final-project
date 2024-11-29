@@ -8,9 +8,18 @@
   width: 100%;
   margin-top: 1.5rem;
 
+  canvas {
+    &:nth-child(2) {
+      display: none;
+    }
+  }
   .inner-wrapper {
     flex-basis: 60%;
     position: relative;
+
+    &.full-width {
+      flex-basis: 100%;
+    }
 
     .play-button {
       background-color: transparent;

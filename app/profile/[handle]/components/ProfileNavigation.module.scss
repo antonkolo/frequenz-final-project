@@ -1,32 +1,24 @@
 @import '/styles/variables';
 
-.container {
-  max-width: $max-width;
-  margin: 0 auto;
-  border-top: $border-black;
-  border-left: $border-black;
-  display: flex;
-  justify-content: space-between;
-}
-
 .menu-title {
   font-size: 3rem;
   text-transform: uppercase;
   font-weight: 300;
   transform: rotate(-90deg);
-  margin-top: 4rem;
-  margin-left: -1rem;
+  margin-top: 5rem;
+  margin-left: -3rem;
 }
 
 .title-wrapper {
-  max-width: 4rem;
+  max-width: 6rem;
   display: flex;
   flex-direction: column;
+  border-right: $border-black;
+  border-bottom: $border-black;
 }
 
 .nav-wrapper {
   display: flex;
-  gap: 2rem;
 }
 
 .nav {
@@ -35,13 +27,13 @@
   width: 360px;
   max-height: 83vh;
   overflow: scroll;
-  border-left: $border-black;
   border-right: $border-black;
   div {
     cursor: pointer;
     padding: 10px;
     display: flex;
     flex-direction: column;
+    justify-content: space-between;
     gap: 6rem;
     border-bottom: $border-black;
 
@@ -73,21 +65,5 @@
     // background-color: $black;
 
     width: 100%;
-  }
-}
-
-.sample-list-wrapper {
-  display: flex;
-  flex-direction: column;
-  gap: 4rem;
-  flex-basis: 720px;
-
-  h2 {
-    font-family: $font-special;
-    font-weight: 300;
-    line-height: 7rem;
-    font-size: 5rem;
-    text-transform: uppercase;
-    border-bottom: $border-black;
   }
 }

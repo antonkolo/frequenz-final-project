@@ -7,7 +7,13 @@ import PauseIcon from '../Icons/PauseIcon';
 import PlayIcon from '../Icons/PlayIcon';
 import styles from './AudioPlayerFull.module.scss';
 
-export function AudioPlayerFull({ sourceUrl }: { sourceUrl: string }) {
+export function AudioPlayerFull({
+  sourceUrl,
+  fullWidth,
+}: {
+  sourceUrl: string;
+  fullWidth?: boolean;
+}) {
   const [wavesurfer, setWavesurfer] = useState<WaveSurfer | null>(null);
   const [isPlaying, setIsPlaying] = useState(false);
 
@@ -21,11 +27,13 @@ export function AudioPlayerFull({ sourceUrl }: { sourceUrl: string }) {
   return (
     <Suspense fallback={<div>Loading...</div>}>
       <div className={styles.wrapper}>
-        <div className={styles['inner-wrapper']}>
+        <div
+          className={`${styles['inner-wrapper']} ${fullWidth ? styles['full-width'] : ''}`}
+        >
           <WavesurferPlayer
             height={200}
             progressColor={'#D9D9D9'}
-            barWidth={2}
+            barWidth={3}
             cursorWidth={0}
             waveColor={'black'}
             normalize

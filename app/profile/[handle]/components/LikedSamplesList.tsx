@@ -11,12 +11,16 @@ import type {
   User,
 } from '../../../../types/types';
 import Sample from '../../../components/Sample/Sample';
+import SampleGrid from '../../../components/SampleGrid/SampleGrid';
 
 export const GET_LIKED_SAMPLES = gql`
   query User($handle: String!) {
     user(handle: $handle) {
       sampleLikes {
         sample {
+          user {
+            handle
+          }
           id
           sourceUrl
           title
@@ -61,24 +65,25 @@ export default function LikedSamplesList({ handle }: Props) {
   const user = useUserContext();
   return (
     <Suspense fallback={<div>Loading liked samples...</div>}>
-      <section>
-        <h2>Your saved sounds</h2>
-        {data.user.sampleLikes.map((sampleLike) => {
-          console.log(sampleLike);
-          return (
-            <ul>
+      <SampleGrid>
+        {data.user.sampleLikes.length > 0 ? (
+          data.user.sampleLikes.map((sampleLike) => {
+            return (
               <li key={String(sampleLike.sample.id)}>
                 <Sample
+                  creator={sampleLike.sample.user!.handle}
                   user={user}
                   id={sampleLike.sample.id}
                   title={sampleLike.sample.title}
                   sourceUrl={sampleLike.sample.sourceUrl}
                 />
               </li>
-            </ul>
-          );
-        })}
-      </section>
+            );
+          })
+        ) : (
+          <p>You haven't liked any sounds yet.</p>
+        )}
+      </SampleGrid>
     </Suspense>
   );
 }

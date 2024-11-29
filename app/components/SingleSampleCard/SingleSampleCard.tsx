@@ -83,8 +83,8 @@ export default function SingleSampleCard({ id }: Props) {
         <h2 className={styles.title}>{sample.title}</h2>
         <AudioPlayerFull sourceUrl={sample.sourceUrl} />
         <div className={styles['info-wrapper']}>
-          <Link href={`/profile/${sample.user?.handle}}`}>
-            {` ${sample.user?.handle}`}
+          <Link href={`/profile/${sample.user?.handle}`}>
+            {`${sample.user?.handle}`}
           </Link>
           <p>{timestampToDate(sample.createdAt)}</p>
         </div>

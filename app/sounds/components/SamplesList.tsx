@@ -3,6 +3,7 @@
 import React, { useState } from 'react';
 import type { Sample as SampleType, User } from '../../../types/types';
 import Sample from '../../components/Sample/Sample';
+import SampleGrid from '../../components/SampleGrid/SampleGrid';
 import styles from './SamplesList.module.scss';
 
 type Props = {
@@ -14,7 +15,7 @@ export function SamplesList({ samples, user }: Props) {
   return (
     <>
       {samples ? (
-        <ul className={styles.container}>
+        <SampleGrid>
           {samples.map((sample) => {
             return (
               <li key={sample!.id}>
@@ -28,7 +29,7 @@ export function SamplesList({ samples, user }: Props) {
               </li>
             );
           })}
-        </ul>
+        </SampleGrid>
       ) : (
         <div>No sounds found</div>
       )}

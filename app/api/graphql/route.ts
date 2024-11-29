@@ -302,8 +302,9 @@ const resolvers: Resolvers = {
       const validatedArgs = userSchema.safeParse(args);
       // 1. Check if required fields are present
       if (validatedArgs.error) {
-        throw new GraphQLError(JSON.stringify(validatedArgs.error.format()));
-        // throw new GraphQLError('hi mom');
+        throw new GraphQLError(
+          JSON.stringify(validatedArgs.error.issues[0]?.message),
+        );
       }
 
       // 2. Check if user already exist in the database

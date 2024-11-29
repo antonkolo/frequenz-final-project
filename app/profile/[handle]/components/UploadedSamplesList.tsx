@@ -5,6 +5,7 @@ import React, { Suspense } from 'react';
 import { useUserContext } from '../../../../context/context';
 import type { Sample as SampleType, User } from '../../../../types/types';
 import Sample from '../../../components/Sample/Sample';
+import SampleGrid from '../../../components/SampleGrid/SampleGrid';
 
 export const GET_UPLOADED_SAMPLES = gql`
   query User($handle: String!) {
@@ -13,6 +14,9 @@ export const GET_UPLOADED_SAMPLES = gql`
         id
         sourceUrl
         title
+        user {
+          handle
+        }
       }
     }
   }
@@ -38,23 +42,21 @@ export default function UploadedSamplesList({ handle }: Props) {
   const isPageOwner = user ? user.handle === handle : false;
   return (
     <Suspense fallback={<div>Loading liked samples...</div>}>
-      <section>
-        <h2>{isPageOwner ? 'Your sounds' : `Sounds added by ${handle}`}</h2>
+      <SampleGrid>
         {data.user.samples.map((sample) => {
           return (
-            <ul>
-              <li key={String(sample.id)}>
-                <Sample
-                  user={user}
-                  id={sample.id}
-                  title={sample.title}
-                  sourceUrl={sample.sourceUrl}
-                />
-              </li>
-            </ul>
+            <li key={String(sample.id)}>
+              <Sample
+                creator={sample.user!.handle}
+                user={user}
+                id={sample.id}
+                title={sample.title}
+                sourceUrl={sample.sourceUrl}
+              />
+            </li>
           );
         })}
-      </section>
+      </SampleGrid>
     </Suspense>
   );
 }

@@ -1,0 +1,127 @@
+@import '/styles/variables';
+
+// general styles
+
+.inner-container {
+  display: flex;
+  gap: 4rem;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.title {
+  font-family: $font-special;
+  font-weight: 300;
+  line-height: 7rem;
+  font-size: 5rem;
+  text-transform: uppercase;
+  border-bottom: $border-black;
+}
+
+.tab-wrapper {
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  gap: 4rem;
+  max-width: 65vw;
+  flex-basis: 720px;
+}
+
+// upload
+
+.upload-tab-wrapper {
+  min-height: 50vh;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: flex-start;
+  position: relative;
+}
+
+// upload tab
+.upload-button {
+  position: relative;
+  margin: 0 auto;
+  font-family: $font-special;
+  font-weight: 300;
+  font-size: 5rem;
+  text-transform: uppercase;
+  background-color: transparent;
+  border: $border-black;
+  cursor: pointer;
+
+  span {
+    display: inline-block;
+    transition: all 1s ease-in-out;
+    height: fit-content;
+    width: fit-content;
+  }
+
+  &:hover {
+    span {
+      transform: rotate(180deg);
+      transition: all 1s ease-in-out;
+    }
+  }
+}
+
+.disclaimer {
+  position: absolute;
+  bottom: 0;
+}
+
+// user detail tab
+.ticker-wrapper {
+  overflow: hidden;
+
+  .ticker {
+    border-top: $border-black;
+    border-bottom: $border-black;
+    display: flex;
+    width: 100%;
+    background-color: $accent-color;
+    span {
+      white-space: nowrap;
+      text-transform: uppercase;
+      padding: 30px 0;
+      font-size: 2.5rem;
+      font-family: $font-special;
+      color: $black;
+      animation: 30s linear 1s infinite running animate;
+      animation-delay: -30s;
+
+      &:nth-child(2) {
+        animation: animate2 30s linear infinite;
+        animation-delay: -15s;
+      }
+    }
+  }
+}
+.user-tab {
+  display: flex;
+  flex-direction: column;
+  flex-basis: 720px;
+  gap: 2rem;
+  overflow: scroll;
+  padding-bottom: 2rem;
+}
+
+// animations
+@keyframes animate {
+  0% {
+    transform: translateX(100%);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
+}
+
+@keyframes animate2 {
+  0% {
+    transform: translateX(0%);
+  }
+  100% {
+    transform: translateX(-200%);
+  }
+}
