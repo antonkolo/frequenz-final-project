@@ -4,8 +4,12 @@ import { gql, useMutation } from '@apollo/client';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import React, { useState } from 'react';
+import { style } from 'wavesurfer.js/src/util';
 import { getSafeReturnToPath } from '../../../../utils/validation';
+import Header from '../../../components/Header/Header';
+import RandomWavePlayer from '../../../components/RandomWavePlayer/RandomWavePlayer';
 import ErrorMessage from '../../../ErrorMessage';
+import styles from './SignInForm.module.scss';
 
 const loginMutation = gql`
   mutation Login($handle: String!, $password: String!) {
@@ -43,42 +47,51 @@ export default function LoginForm(props: Props) {
   });
 
   return (
-    <div>
-      <div>
-        <h1>Welcome Back</h1>
-        <form
-          onSubmit={async (event) => {
-            event.preventDefault();
-            await login();
-          }}
-        >
-          <label>
-            Username
-            <input
-              value={username}
-              onChange={(event) => {
-                setUsername(event.currentTarget.value);
+    <>
+      <Header style="dark" />
+      <div className={styles.container}>
+        <div className={styles['inner-container']}>
+          <RandomWavePlayer />
+          <div className={styles['form-wrapper']}>
+            <h1 className={styles.title}>Sign in</h1>
+            <form
+              className={styles.form}
+              onSubmit={async (event) => {
+                event.preventDefault();
+                await login();
               }}
-            ></input>
-          </label>
-          <label>
-            Password
-            <input
-              value={password}
-              onChange={(event) => {
-                setPassword(event.currentTarget.value);
-              }}
-              type="password"
-            ></input>
-          </label>
-          <button>Sign in</button>
-        </form>
-        <ErrorMessage>{error}</ErrorMessage>
+            >
+              <label className={styles['text-input']}>
+                Username
+                <input
+                  value={username}
+                  onChange={(event) => {
+                    setUsername(event.currentTarget.value);
+                  }}
+                ></input>
+              </label>
+              <label className={styles['text-input']}>
+                Password
+                <input
+                  value={password}
+                  onChange={(event) => {
+                    setPassword(event.currentTarget.value);
+                  }}
+                  type="password"
+                ></input>
+              </label>
+              <div className={styles['button-wrapper']}>
+                <button className={styles.button}>Sign in</button>
+              </div>
+            </form>
+            <ErrorMessage>{error}</ErrorMessage>
 
-        <p>
-          Not a user yet? <Link href={'/sign-up'}>Sing-up</Link>
-        </p>
+            <p>
+              Not a user yet? <Link href={'/sign-up'}>Sing-up</Link>
+            </p>
+          </div>
+        </div>
       </div>
-    </div>
+    </>
   );
 }

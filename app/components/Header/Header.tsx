@@ -5,14 +5,16 @@ import Navigation from './Navigation';
 
 type Props = {
   style: 'dark' | 'light';
+  overrideClass?: string;
 };
 
-export default function Header({ style }: Props) {
+export default function Header({ style, overrideClass }: Props) {
   return (
     <div
-      className={
-        style === 'dark' ? styles.container : styles['container--light']
-      }
+      className={`
+        ${style === 'dark' ? styles.container : styles['container--light']}
+${overrideClass ? overrideClass : ''}
+     `}
     >
       <header
         className={

@@ -1,0 +1,79 @@
+@import '/styles/variables';
+
+.container {
+  background-color: $black;
+  width: 100%;
+  border-bottom: $border-white;
+}
+
+.inner-container {
+  max-width: $max-width;
+  margin: 0 auto;
+  border-left: $border-white;
+  border-right: $border-white;
+  border-top: $border-white;
+  position: relative;
+  min-height: 80vh;
+}
+
+.header-override {
+  header {
+    padding-bottom: 28px;
+    border-right: $border-black;
+  }
+}
+
+.form-wrapper {
+  color: $white;
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: flex;
+  flex-direction: column;
+  padding: 2rem;
+  min-width: 35vw;
+
+  .title {
+    font-family: $font-special;
+    font-size: 4rem;
+    line-height: 7rem;
+    border-bottom: $border-white;
+    font-weight: 300;
+    text-transform: uppercase;
+  }
+}
+
+.form {
+  padding: 1.5rem 0;
+  border-top: $border-black;
+  margin-top: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  .text-input {
+    display: flex;
+    flex-direction: column;
+    text-transform: uppercase;
+    gap: 0.5rem;
+
+    input {
+      padding: 0.5rem;
+      overflow: auto;
+      outline: none;
+    }
+  }
+}
+
+.button-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+.button {
+  background-color: transparent;
+  border: $border-white;
+  padding: 0.5rem 1rem;
+  font-family: 'Helvetica Neue', serif;
+  color: $white;
+}
