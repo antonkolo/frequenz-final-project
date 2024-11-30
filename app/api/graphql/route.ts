@@ -70,6 +70,7 @@ const typeDefs = gql`
     createdAt: String!
     samples: [Sample!]
     sampleLikes: [SampleLike!]
+    bio: String
   }
 
   type Sample {
@@ -141,7 +142,7 @@ const typeDefs = gql`
     createSampleLike(userId: Int!, sampleId: Int!): SampleLike
     deleteSampleLike(id: Int!): SampleLike
 
-    register(handle: String!, password: String!): User
+    register(handle: String!, password: String!, bio: String): User
     login(handle: String!, password: String!): User
   }
 `;
@@ -318,7 +319,11 @@ const resolvers: Resolvers = {
       const passwordHash = await bcrypt.hash(args.password, 12);
 
       // 4. Save the user information with the hashed password in the database
-      const newUser = await createUserInsecure(args.handle, passwordHash);
+      const newUser = await createUserInsecure(
+        args.handle,
+        passwordHash,
+        args.bio ? args.bio : '',
+      );
 
       if (!newUser) {
         throw new GraphQLError('Registration failed');
@@ -359,7 +364,7 @@ const resolvers: Resolvers = {
       );
 
       if (!userWithPasswordHash) {
-        throw new GraphQLError('username or password not valid');
+        throw new GraphQLError('Username or Password invalid');
       }
 
       // 4. Validate the user password by comparing with hashed password
@@ -369,7 +374,7 @@ const resolvers: Resolvers = {
       );
 
       if (!passwordHash) {
-        throw new GraphQLError('username or password not valid');
+        throw new GraphQLError('Username or Password invalid');
       }
 
       // 5. Create a token

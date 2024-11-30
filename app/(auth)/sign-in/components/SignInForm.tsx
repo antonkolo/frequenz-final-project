@@ -79,16 +79,18 @@ export default function LoginForm(props: Props) {
                   }}
                   type="password"
                 ></input>
+                <ErrorMessage>{error}</ErrorMessage>
               </label>
               <div className={styles['button-wrapper']}>
+                <p>
+                  Not a user yet?{' '}
+                  <Link className={styles.signup} href={'/sign-up'}>
+                    Sing-up
+                  </Link>
+                </p>
                 <button className={styles.button}>Sign in</button>
               </div>
             </form>
-            <ErrorMessage>{error}</ErrorMessage>
-
-            <p>
-              Not a user yet? <Link href={'/sign-up'}>Sing-up</Link>
-            </p>
           </div>
         </div>
       </div>

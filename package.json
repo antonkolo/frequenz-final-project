@@ -35,6 +35,7 @@
     "postgres": "^3.4.5",
     "react": "19.0.0-rc-5d19e1c8-20240923",
     "react-dom": "19.0.0-rc-5d19e1c8-20240923",
+    "react-hot-toast": "^2.4.1",
     "react-select": "^5.8.3",
     "react-use-downloader": "^1.2.8",
     "sass": "^1.80.4",

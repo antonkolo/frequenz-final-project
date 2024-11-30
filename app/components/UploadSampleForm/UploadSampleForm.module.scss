@@ -110,12 +110,13 @@
     gap: 0.5rem;
 
     textarea {
-      overflow: auto;
-      outline: none;
       resize: none;
-      padding: 0.5rem;
     }
-    input {
+    input,
+    textarea {
+      inset: none;
+      font-size: 1rem;
+      font-family: 'Helvetica Neue', serif;
       padding: 0.5rem;
       overflow: auto;
       outline: none;

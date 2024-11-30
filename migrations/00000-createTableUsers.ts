@@ -11,7 +11,8 @@ export async function up(sql: Sql) {
     id integer PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
     handle varchar(100) NOT NULL,
     password_hash varchar(72) NOT NULL,
-    created_at timestamp NOT NULL default CURRENT_TIMESTAMP
+    created_at timestamp NOT NULL default CURRENT_TIMESTAMP,
+    bio varchar(1000)
   )
   `;
 }

@@ -8,9 +8,10 @@ import styles from './Modal.module.scss';
 type Props = {
   isOpen: boolean;
   setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  notify: (message: string) => void;
 };
 
-export default function Modal({ isOpen, setIsOpen }: Props) {
+export default function Modal({ isOpen, setIsOpen, notify }: Props) {
   // Always render the modal, but control its visibility
   const [showModal, setShowModal] = useState(false);
 
@@ -42,6 +43,7 @@ export default function Modal({ isOpen, setIsOpen }: Props) {
             &times;
           </button>
           <UploadSampleForm
+            notify={notify}
             closeDialog={() => {
               setShowModal(false);
               setIsOpen(false);

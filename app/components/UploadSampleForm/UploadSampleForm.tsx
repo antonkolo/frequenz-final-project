@@ -1,7 +1,7 @@
 import { gql, useMutation, useSuspenseQuery } from '@apollo/client';
 import React, { useEffect, useState } from 'react';
+import toast, { Toaster } from 'react-hot-toast';
 import Select from 'react-select';
-import { style } from 'wavesurfer.js/src/util';
 import { useUserContext } from '../../../context/context';
 import { sampleSchema } from '../../../types/schemas';
 import { type Category } from '../../../types/types';
@@ -44,9 +44,10 @@ const CREATE_SAMPLE = gql`
 
 type Props = {
   closeDialog: () => void;
+  notify: (message: string) => void;
 };
 
-export default function UploadSampleForm({ closeDialog }: Props) {
+export default function UploadSampleForm({ closeDialog, notify }: Props) {
   // Step management
   const [currentStep, setCurrentStep] = useState(1);
   const [error, setError] = useState('');
@@ -58,7 +59,6 @@ export default function UploadSampleForm({ closeDialog }: Props) {
   const [description, setDescription] = useState('');
   const [fileKey, setFileKey] = useState('');
   const [hasMounted, setHasMounted] = useState(false);
-  const [sampleCreated, setSampleCreated] = useState(false);
 
   useEffect(() => setHasMounted(true), []);
 
@@ -75,12 +75,15 @@ export default function UploadSampleForm({ closeDialog }: Props) {
 
   const [createSample] = useMutation(CREATE_SAMPLE, {
     onError: (error) => setError(error.message),
-    onCompleted: () => closeDialog,
   });
 
   const handleSubmit: React.FormEventHandler = async (e) => {
     e.preventDefault();
 
+    if (categoryIds.length < 1) {
+      setError('Select at least 1 category');
+      return;
+    }
     const newSample = { title, sourceUrl, description, fileKey };
     const { success, error } = sampleSchema.safeParse(newSample);
 
@@ -100,26 +103,16 @@ export default function UploadSampleForm({ closeDialog }: Props) {
       },
     });
 
-    console.log(createdSample);
-
     if (createdSample) {
       setCurrentStep(1);
+      closeDialog();
+      notify('Sound has been created. Thanks for sharing!');
     }
   };
 
   const handleBack = () => {
     setCurrentStep(1);
   };
-
-  // if (sampleCreated) {
-  //   return (
-  //     <div>
-  //       <h3>Your Sound is now online!</h3>
-  //       <p>Thanks for contributing to the community</p>
-  //       <button onClick={closeDialog}>Close</button>
-  //     </div>
-  //   );
-  // }
 
   return (
     <div className={styles.container}>
@@ -149,6 +142,7 @@ export default function UploadSampleForm({ closeDialog }: Props) {
                   setSourceUrl(upload.url);
                   setTitle(upload.name);
                   setFileKey(upload.key);
+
                   setCurrentStep(2);
                 }
               }}
@@ -185,6 +179,7 @@ export default function UploadSampleForm({ closeDialog }: Props) {
                       control: (baseStyles, state) => ({
                         ...baseStyles,
                         borderColor: 'black',
+                        borderRadius: '0',
                         '&:hover': {
                           borderColor: 'black',
                         },

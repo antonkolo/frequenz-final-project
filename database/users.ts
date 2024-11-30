@@ -32,7 +32,8 @@ export const getUserInsecure = cache(async (handle: User['handle']) => {
     SELECT
       users.id,
       users.handle,
-      users.created_at
+      users.created_at,
+      users.bio
     FROM
       users
     WHERE
@@ -71,14 +72,16 @@ export const createUserInsecure = cache(
   async (
     handle: User['handle'],
     passwordHash: UserWithPasswordHash['passwordHash'],
+    bio: string,
   ) => {
     const [user] = await sql<User[]>`
       INSERT INTO
-        users (handle, password_hash)
+        users (handle, password_hash, bio)
       VALUES
         (
           ${handle.toLowerCase()},
-          ${passwordHash}
+          ${passwordHash},
+          ${bio}
         )
       RETURNING
         users.id,

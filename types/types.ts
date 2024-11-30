@@ -2,6 +2,7 @@ export type User = {
   id: number;
   handle: string;
   createdAt: string;
+  bio?: string;
 };
 
 export type UserWithPasswordHash = User & {

@@ -1,6 +1,7 @@
 'use client';
 import { title } from 'process';
 import React, { useState } from 'react';
+import toast, { Toaster } from 'react-hot-toast';
 import { style } from 'wavesurfer.js/src/util';
 import SampleGrid from '../../../components/SampleGrid/SampleGrid';
 import LikedSamplesList from './LikedSamplesList';
@@ -13,6 +14,9 @@ import styles from './UserProfile.module.scss';
 type Props = {
   handle: string;
 };
+
+// create toast function
+const notify = (message: string) => toast(message);
 export default function UserProfile({ handle }: Props) {
   const [selectedTab, setSelectedTab] = useState<
     'saved' | 'detail' | 'uploads'
@@ -54,7 +58,7 @@ export default function UserProfile({ handle }: Props) {
               rights to.
             </p>
           </div>
-          <Modal isOpen={isOpen} setIsOpen={setIsOpen} />
+          <Modal notify={notify} isOpen={isOpen} setIsOpen={setIsOpen} />
         </>
       )}
 
@@ -92,6 +96,11 @@ export default function UserProfile({ handle }: Props) {
           <UploadedSamplesList handle={handle} />
         </div>
       )}
+      <Toaster
+        toastOptions={{
+          className: styles.toast,
+        }}
+      />
     </div>
   );
 }
