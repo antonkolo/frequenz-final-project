@@ -49,7 +49,6 @@ function Sphere({
 }
 
 export default function Scene({ analyzer, onClick }: Props): ReactNode {
-  console.log(analyzer);
   return (
     <>
       {/* camera */}

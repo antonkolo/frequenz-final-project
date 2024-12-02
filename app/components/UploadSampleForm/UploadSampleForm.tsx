@@ -1,6 +1,5 @@
 import { gql, useMutation, useSuspenseQuery } from '@apollo/client';
 import React, { useEffect, useState } from 'react';
-import toast, { Toaster } from 'react-hot-toast';
 import Select from 'react-select';
 import { useUserContext } from '../../../context/context';
 import { sampleSchema } from '../../../types/schemas';

@@ -107,7 +107,10 @@ export default function SingleSampleCard({ id }: Props) {
             )}
             <button
               onClick={() =>
-                download(`${UPLOADTHING_URL}${sample.fileKey}`, sample.title)
+                download(
+                  `${UPLOADTHING_URL}${sample.fileKey}`,
+                  `${sample.title}.wav`,
+                )
               }
               className={styles['download-button']}
             >

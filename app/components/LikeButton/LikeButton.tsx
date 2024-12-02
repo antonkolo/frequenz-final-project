@@ -68,9 +68,7 @@ export default function LikeButton({
 
   // add like deletion mutation
   const [deleteSampleLike] = useMutation(DELETE_LIKE, {
-    update(cache) {
-      console.log(cache);
-    },
+    update(cache) {},
     onError: (apolloError) => {
       setErrorMessage(apolloError.message);
     },

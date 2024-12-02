@@ -33,10 +33,11 @@
   display: flex;
   flex-direction: column;
   width: 360px;
-  max-height: 83vh;
+  max-height: 85vh;
   overflow: scroll;
   border-left: $border-black;
   border-right: $border-black;
+  border-bottom: $border-black;
   div {
     cursor: pointer;
     padding: 10px;
@@ -81,6 +82,8 @@
   flex-direction: column;
   gap: 4rem;
   flex-basis: 720px;
+  max-height: 80vh;
+  overflow: scroll;
 
   h2 {
     font-family: $font-special;

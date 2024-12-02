@@ -10,12 +10,13 @@ type Props = {
     React.SetStateAction<'saved' | 'detail' | 'uploads'>
   >;
   selectedTab: string;
+  isPageOwner: boolean;
 };
 export default function ProfileNavigation({
   setSelectedTab,
   selectedTab,
+  isPageOwner,
 }: Props) {
-  const user = useUserContext();
   return (
     <div>
       <div className={styles['nav-wrapper']}>
@@ -31,7 +32,7 @@ export default function ProfileNavigation({
               <p> Your collection</p>
             </div>
           </li>
-          {user && (
+          {isPageOwner && (
             <li>
               <div
                 onClick={() => {

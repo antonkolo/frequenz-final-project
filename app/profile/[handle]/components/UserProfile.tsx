@@ -3,6 +3,7 @@ import { title } from 'process';
 import React, { useState } from 'react';
 import toast, { Toaster } from 'react-hot-toast';
 import { style } from 'wavesurfer.js/src/util';
+import { useUserContext } from '../../../../context/context';
 import SampleGrid from '../../../components/SampleGrid/SampleGrid';
 import LikedSamplesList from './LikedSamplesList';
 import Modal from './Modal';
@@ -22,9 +23,17 @@ export default function UserProfile({ handle }: Props) {
     'saved' | 'detail' | 'uploads'
   >('saved');
   const [isOpen, setIsOpen] = useState(false);
+
+  const viewingUser = useUserContext();
+  let isPageOwner = false;
+
+  if (viewingUser) {
+    isPageOwner = handle === viewingUser.handle;
+  }
   return (
     <div className={styles['inner-container']}>
       <ProfileNavigation
+        isPageOwner={isPageOwner}
         selectedTab={selectedTab}
         setSelectedTab={setSelectedTab}
       />
@@ -32,7 +41,7 @@ export default function UserProfile({ handle }: Props) {
       {selectedTab === 'saved' && (
         <div className={styles['tab-wrapper']}>
           <h1 className={styles.title}>Collection</h1>
-          <LikedSamplesList handle={handle} />
+          <LikedSamplesList isPageOwner={isPageOwner} handle={handle} />
         </div>
       )}
       {/* uploaded samples tab */}

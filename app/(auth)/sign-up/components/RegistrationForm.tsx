@@ -31,13 +31,13 @@ export default function RegistrationForm() {
     },
 
     onError: (apolloError) => {
-      console.log(apolloError.message);
       setErrorMessage(apolloError.message);
     },
 
     onCompleted: () => {
       setErrorMessage('');
       router.push('/sounds');
+      router.refresh();
     },
   });
 

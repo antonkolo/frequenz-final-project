@@ -37,6 +37,7 @@ export const GET_LIKED_SAMPLES = gql`
 
 type Props = {
   handle: User['handle'];
+  isPageOwner: boolean;
 };
 
 type SampleCategoryWithCategory = SampleCategory & {
@@ -55,7 +56,7 @@ type UserWithSampleLikes = User & {
   sampleLikes: SampleLikeWithSample[];
 };
 
-export default function LikedSamplesList({ handle }: Props) {
+export default function LikedSamplesList({ handle, isPageOwner }: Props) {
   const { data } = useSuspenseQuery<{
     user: UserWithSampleLikes;
   }>(GET_LIKED_SAMPLES, {
@@ -81,7 +82,10 @@ export default function LikedSamplesList({ handle }: Props) {
             );
           })
         ) : (
-          <p>You haven't liked any sounds yet.</p>
+          <p>
+            {isPageOwner ? "You haven't" : `${handle} hasn't`} liked any sounds
+            yet.
+          </p>
         )}
       </SampleGrid>
     </Suspense>

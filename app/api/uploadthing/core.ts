@@ -15,7 +15,6 @@ export const myFileRouter = {
       // If you throw, the user will not be able to upload
       if (!sessionTokenCookie) throw new UploadThingError('Unauthorized');
 
-      console.log('sessionToken', sessionTokenCookie.value);
       const session = await getValidSession(sessionTokenCookie.value);
 
       if (!session) throw new UploadThingError('Invalid Session Token');
@@ -23,9 +22,6 @@ export const myFileRouter = {
       // Whatever is returned here is accessible in onUploadComplete as `metadata`
       return { userId: session.userId };
     })
-    .onUploadComplete(async ({ file, metadata }) => {
-      console.log('file url', file.url);
-      console.log('metadata', metadata);
-    }),
+    .onUploadComplete(async ({ file, metadata }) => {}),
 } satisfies FileRouter;
 export type MyFileRouter = typeof myFileRouter;

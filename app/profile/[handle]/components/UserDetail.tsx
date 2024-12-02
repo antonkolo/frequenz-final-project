@@ -20,7 +20,7 @@ export function UserDetail({ handle }: { handle: string }) {
     variables: { handle },
   });
   const isEditable = viewingUser ? viewingUser.handle === handle : false;
-  console.log(userData);
+
   return (
     <section>
       {/* <h2>User Information</h2>

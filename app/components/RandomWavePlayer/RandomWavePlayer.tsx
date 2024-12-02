@@ -81,7 +81,6 @@ function playRandomSound() {
 
   // play
   oscillatorNode.start(0);
-  console.log(audioAnalyzer.getFFT());
 }
 
 async function mute() {

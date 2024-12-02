@@ -18,7 +18,6 @@ export default async function SamplePage({
     return <NotFoundPage></NotFoundPage>;
   }
 
-  console.log(typeof sample.id);
   return (
     <>
       <Header style="light" />
