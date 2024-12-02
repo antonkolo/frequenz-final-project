@@ -9,7 +9,7 @@ export const postgresConfig = {
     undefined: null,
   },
 
-  sl: sslConfig,
+  ssl: sslConfig,
 };
 
 export function setEnvironmentVariables() {
