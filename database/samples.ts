@@ -8,10 +8,7 @@ export const getSamplesInsecure = cache(async () => {
   const samples = await sql<Sample[]>`
   SELECT * FROM samples
   `;
-  return samples.map((sample) => ({
-    ...postgresToGraphql(sample),
-    userId: sample.userId, // Keep the userId for resolving the user field
-  }));
+  return samples.map(postgresToGraphql);
 });
 
 export const getSampleInsecure = cache(async (id: number) => {

@@ -18,10 +18,10 @@ export type Sample = {
   editedAt: string;
   description: string;
   fileKey: string;
-  user?: User;
-  sampleCategories?: SampleCategory[];
+  user?: User | null;
+  sampleCategories?: SampleCategory[] | null;
+  sampleLikes?: SampleLike[] | null; // Add this to match GraphQL type
 };
-
 export type Category = {
   id: number;
   name: string;

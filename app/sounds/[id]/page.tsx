@@ -1,4 +1,3 @@
-import { HeadersAdapter } from 'next/dist/server/web/spec-extension/adapters/headers';
 import React from 'react';
 import { getSampleInsecure } from '../../../database/samples';
 import Header from '../../components/Header/Header';
@@ -9,10 +8,10 @@ import styles from './page.module.scss';
 export default async function SamplePage({
   params,
 }: {
-  params: Promise<{ id: number }>;
+  params: Promise<{ id: string }>;
 }) {
   const { id } = await params;
-  const sample = await getSampleInsecure(id);
+  const sample = await getSampleInsecure(Number(id));
   // early return if sample not found
   if (!sample) {
     return <NotFoundPage></NotFoundPage>;
