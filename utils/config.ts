@@ -1,18 +1,19 @@
 import { config } from 'dotenv-safe';
 import postgres from 'postgres';
 
+export const sslConfig = Boolean(process.env.POSTGRES_URL);
+
 export const postgresConfig = {
   transform: {
     ...postgres.camel,
     undefined: null,
   },
 
-  ssl: false,
+  sl: sslConfig,
 };
 
 export function setEnvironmentVariables() {
   if (process.env.NODE_ENV === 'production' || process.env.CI) {
-    postgresConfig.ssl = true;
     // Set standard environment variables for Postgres.js from
     // Vercel environment variables
     if (process.env.POSTGRES_URL) {
