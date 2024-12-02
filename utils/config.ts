@@ -15,7 +15,7 @@ export function setEnvironmentVariables() {
     if (process.env.POSTGRES_URL) {
       process.env.PGHOST = process.env.POSTGRES_HOST;
       process.env.PGDATABASE = process.env.POSTGRES_DATABASE;
-      process.env.PGUSER = process.env.POSTGRES_USER;
+      process.env.PGUSERNAME = process.env.POSTGRES_USER;
       process.env.PGPASSWORD = process.env.POSTGRES_PASSWORD;
     }
     return;

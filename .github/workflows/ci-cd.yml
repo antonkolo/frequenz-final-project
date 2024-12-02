@@ -10,7 +10,7 @@ jobs:
       PGDATABASE: frequenz
       PGHOST: localhost
       PGPASSWORD: frequenz
-      PGUSER: frequenz
+      PGUSERNAME: frequenz
     steps:
       - name: Start preinstalled PostgreSQL on Ubuntu
         run: |
