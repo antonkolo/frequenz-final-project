@@ -1,15 +1,12 @@
 import { config } from 'dotenv-safe';
 import postgres from 'postgres';
 
-export const sslConfig = Boolean(process.env.POSTGRES_URL);
-
 export const postgresConfig = {
+  ssl: Boolean(process.env.POSTGRES_URL),
   transform: {
     ...postgres.camel,
     undefined: null,
   },
-
-  ssl: sslConfig,
 };
 
 export function setEnvironmentVariables() {

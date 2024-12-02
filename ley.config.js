@@ -1,17 +1,5 @@
-import { config } from 'dotenv-safe';
-import postgres from 'postgres';
+import { postgresConfig, setEnvironmentVariables } from './util/config.js';
 
-config();
+setEnvironmentVariables();
 
-export const sslConfig = Boolean(process.env.POSTGRES_URL);
-
-const option = {
-  trasform: {
-    ...postgres.camel,
-    undefined: null,
-  },
-
-  ssl: sslConfig,
-};
-
-export default option;
+export default postgresConfig;
