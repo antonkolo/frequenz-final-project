@@ -1,4 +1,4 @@
-import { postgresConfig, setEnvironmentVariables } from './utils/config.ts';
+import { postgresConfig, setEnvironmentVariables } from './utils/config';
 
 setEnvironmentVariables();
 
